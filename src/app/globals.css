@@ -1,0 +1,461 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  SNOWBROS design system — warm editorial light.
+
+  Warm off-white paper (#FAFAF8), near-black ink (#111110), and ONE restrained
+  accent: Deep Forest (#24423A). Emphasis comes from type weight, space, and a
+  single considered color — never from painting the UI. The look sits between
+  Linear / Vercel / Stripe / Notion: engineered, quiet, premium.
+
+  IMPORTANT: shadcn owns the semantic color names (background, foreground,
+  border, muted, secondary, accent, card, primary, ring, ...). Those are the
+  single source of truth in :root below and exposed to Tailwind via
+  `@theme inline`. Do NOT redefine those same --color-* names in the plain
+  `@theme` block — that double-definition is what breaks text-secondary etc.
+
+  The plain `@theme` block holds BRAND-ONLY tokens shadcn does not own:
+  ink, surface, elevated, hairline, accent-weak/-strong — plus type/space/motion.
+*/
+
+@theme {
+  /* ---- Brand-only color tokens (no shadcn collision) ---- */
+  --color-ink: #171717; /* primary text — text-ink (near-black) */
+  --color-surface: #fafbfa; /* raised inner panels */
+  --color-elevated: #f4f6f5; /* section band — one step up from body */
+  --color-hairline: #d6dbd8; /* cool engineering hairline */
+  --color-hairline-strong: #c1c9c4; /* stronger rule / hover border */
+  --color-accent-weak: #e8f0ec; /* muted green wash */
+  --color-accent-strong: #1c342e; /* darker forest — hover / press */
+  --color-card-hover: #f4f8f5; /* faint green card hover fill */
+
+  /* ---- Typography ---- */
+  --font-sans: var(--font-geist-sans), "Inter", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  /* Display serif — Instrument Serif, HERO MOMENTS ONLY (.display-serif) */
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia,
+    "Times New Roman", serif;
+
+  /* Fluid editorial scale (min → max via clamp) */
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.08em;
+
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+
+  --text-base: 1rem;
+  --text-base--line-height: 1.7;
+
+  --text-lg: 1.1875rem;
+  --text-lg--line-height: 1.65;
+
+  --text-xl: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+  --text-xl--line-height: 1.4;
+
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  --text-2xl--line-height: 1.25;
+
+  --text-3xl: clamp(2rem, 1.5rem + 2.4vw, 3rem);
+  --text-3xl--line-height: 1.1;
+  --text-3xl--letter-spacing: -0.02em;
+
+  --text-4xl: clamp(2.75rem, 1.9rem + 4vw, 4.5rem);
+  --text-4xl--line-height: 1.02;
+  --text-4xl--letter-spacing: -0.025em;
+
+  --text-5xl: clamp(3.25rem, 1.6rem + 7.4vw, 7rem);
+  --text-5xl--line-height: 0.96;
+  --text-5xl--letter-spacing: -0.032em;
+
+  /* ---- Radius ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* ---- Motion ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---- Layout ---- */
+  --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
+  --breakpoint-content: 1200px;
+}
+
+/*
+  shadcn/ui semantic tokens — literal light values, single source of truth.
+  Light-only site, so :root and .dark resolve identically (the .dark class on
+  <html> is retained only so shadcn's dark: variants never fire unexpectedly).
+*/
+:root,
+.dark {
+  --background: #eef2f1; /* cool-gray body — deepest layer */
+  --foreground: #171717; /* near-black ink */
+
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+
+  /* Primary = Deep Forest — the one accent, used for the main CTA */
+  --primary: #24423a;
+  --primary-foreground: #f8f9f8;
+
+  /* text-secondary — cool engineering grey (~5.8:1 on base) */
+  --secondary: #5f6468;
+  --secondary-foreground: #f8f9f8;
+
+  /* text-muted — fainter grey, still ≥4.5:1 on the base */
+  --muted: #646a6e;
+  --muted-foreground: #5f6468;
+
+  /* accent = Deep Forest (color used sparingly for emphasis / links) */
+  --accent: #24423a;
+  --accent-foreground: #f8f9f8;
+
+  --destructive: #b3261e;
+  --border: #d6dbd8;
+  --input: #c1c9c4;
+  --ring: rgba(36, 66, 58, 0.55);
+
+  /* Charts — forest-anchored warm ramp */
+  --chart-1: #24423a;
+  --chart-2: #4b6b60;
+  --chart-3: #8a5a3c;
+  --chart-4: #a8a196;
+  --chart-5: #cfcabf;
+
+  --sidebar: #fcfcfc;
+  --sidebar-foreground: #151515;
+  --sidebar-primary: #24423a;
+  --sidebar-primary-foreground: #f8f9f8;
+  --sidebar-accent: #f8f9f8;
+  --sidebar-accent-foreground: #151515;
+  --sidebar-border: #d9dedb;
+  --sidebar-ring: rgba(36, 66, 58, 0.55);
+
+  --radius: 14px;
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    @apply outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    color-scheme: light;
+    @apply font-sans;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: #f8f9f8;
+  }
+
+  /* Visible, consistent focus — accessibility baseline */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /*
+    Product-first typography: headings default to the Geist grotesk with tight
+    tracking. The display serif (Instrument Serif) is reserved for hero moments
+    only, applied deliberately via `.display-serif` — never site-wide.
+  */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-sans);
+    font-weight: 560;
+    letter-spacing: -0.021em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Hero-only display serif — Instrument Serif, large and airy */
+  .display-serif {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    font-style: normal;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Eyebrow label — part of the hierarchy, not a footnote. Mono, forest. */
+  .eyebrow {
+    font-family: var(--font-mono); /* mono eyebrow — engineering signal */
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.4;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Forest accent inline text link with a drawn underline */
+  .link-accent {
+    color: var(--accent);
+    font-weight: 500;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.28s var(--ease-out-soft);
+  }
+  .link-accent:hover {
+    background-size: 100% 1px;
+  }
+
+  /*
+    Page atmosphere — a fixed, almost-invisible engineering grid plus a warm
+    radial lift near the top. Pointer-events-none; sits above the paper but
+    below content. Extremely subtle by design.
+  */
+  .page-atmosphere {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page-atmosphere::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(17, 17, 16, 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(17, 17, 16, 0.025) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(
+      120% 90% at 50% 0%,
+      #000 0%,
+      transparent 62%
+    );
+    mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 62%);
+  }
+
+  .page-atmosphere::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      100% 60% at 50% -8%,
+      rgba(36, 66, 58, 0.05) 0%,
+      transparent 60%
+    );
+  }
+
+  /* Fine paper grain — barely-there tooth over the whole page */
+  .paper-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+  }
+
+  /*
+    Engineered card — an engineering-module surface, not a default box.
+    Cool hairline, tiny radius, soft layered shadow. Optional cursor-follow
+    glow via --mx/--my custom props (set by CursorGlow client wrapper).
+  */
+  .card-engineered {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    box-shadow:
+      0 1px 2px rgba(23, 23, 23, 0.06),
+      0 4px 8px -4px rgba(23, 23, 23, 0.08),
+      0 16px 32px -20px rgba(23, 23, 23, 0.22);
+    transition:
+      transform 0.4s var(--ease-out-soft),
+      border-color 0.4s var(--ease-out-soft),
+      box-shadow 0.4s var(--ease-out-soft),
+      background-color 0.4s var(--ease-out-soft);
+  }
+  .card-engineered:hover {
+    transform: translateY(-3px);
+    border-color: var(--hairline-strong);
+    background: var(--color-card-hover);
+    box-shadow:
+      0 1px 2px rgba(23, 23, 23, 0.07),
+      0 8px 16px -6px rgba(23, 23, 23, 0.1),
+      0 32px 60px -28px rgba(23, 23, 23, 0.32);
+  }
+
+  /* Cursor-follow glow — extremely subtle forest bloom under the pointer */
+  .card-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-soft);
+    background: radial-gradient(
+      240px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(36, 66, 58, 0.08),
+      transparent 60%
+    );
+  }
+  .card-glow:hover::before {
+    opacity: 1;
+  }
+
+  /* Live status dot — pulsing forest node for module headers */
+  .status-dot {
+    position: relative;
+    display: inline-flex;
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+  .status-dot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--accent);
+    opacity: 0.55;
+    animation: status-ping 2s var(--ease-out-soft) infinite;
+  }
+  .status-dot::after {
+    content: "";
+    position: relative;
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 9999px;
+    background: var(--accent);
+  }
+  @keyframes status-ping {
+    0% { transform: scale(1); opacity: 0.55; }
+    70%,
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+
+  /* Floating engineering widget — gentle vertical drift */
+  .widget-drift {
+    animation: widget-drift 7s var(--ease-in-out-soft) infinite;
+  }
+  @keyframes widget-drift {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  /* Sparkline draw-in */
+  .spark-draw {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    animation: spark-draw 1.4s var(--ease-out-soft) 0.4s forwards;
+  }
+  @keyframes spark-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Blueprint dot-grid panel background */
+  .dot-grid {
+    background-image: radial-gradient(
+      var(--color-hairline) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
