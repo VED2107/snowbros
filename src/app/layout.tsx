@@ -1,11 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Instrument_Serif,
+  Nunito,
+  Playfair_Display,
+  Cormorant_Garamond,
+  Press_Start_2P,
+} from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { CursorGlow } from "@/components/motion/cursor-glow";
+import { MobileCta } from "@/components/ui/mobile-cta";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/json-ld";
 
 const geistSans = Geist({
@@ -28,6 +37,40 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
   weight: "400",
   style: ["normal", "italic"],
+});
+
+/*
+  Brand typefaces for client wordmarks in the trust bar — each client's site
+  name is set in the client's own font (matched from their live site's CSS),
+  not the studio's. Used nowhere else on the site.
+*/
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["700", "800"],
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair-display",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600"],
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant-garamond",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600"],
+  style: ["italic"],
+});
+
+const pressStart2p = Press_Start_2P({
+  variable: "--font-press-start-2p",
+  subsets: ["latin"],
+  display: "swap",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -93,7 +136,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${nunito.variable} ${playfairDisplay.variable} ${cormorantGaramond.variable} ${pressStart2p.variable} antialiased`}
     >
       <body className="flex min-h-dvh flex-col bg-background text-ink">
         <div className="page-atmosphere" aria-hidden />
@@ -114,6 +157,7 @@ export default function RootLayout({
           </main>
           <SiteFooter />
         </SmoothScroll>
+        <MobileCta />
       </body>
     </html>
   );

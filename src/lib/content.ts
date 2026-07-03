@@ -76,6 +76,15 @@ export type Project = {
   discipline: string;
   year: string;
   summary: string;
+  /** One-line, verifiable outcome — shown as a badge on the case study card. */
+  result: string;
+  /** "client" = paid client work, "personal" = our own product (e.g. founder portfolio). */
+  kind: "client" | "personal";
+  /** Real logo file in /public/logos, used in the trust bar and work grid. */
+  logo: string;
+  /** The client's own brand font (matched from their live site), used only
+   *  for their wordmark in the trust bar — CSS var name, e.g. "--font-nunito". */
+  brandFont: string;
   /** Short label under the title, e.g. "Education platform". */
   category: string;
   /** Accent used by the browser-mockup preview. */
@@ -108,6 +117,10 @@ export const projects: Project[] = [
     title: "A full-stack education platform built for real classrooms",
     discipline: "Platform · SaaS",
     category: "Education platform",
+    result: "3 role-based portals shipped from a single codebase, live in production",
+    kind: "client",
+    logo: "/logos/stc.png",
+    brandFont: "--font-nunito",
     year: "2025",
     accent: "#2f8f7d",
     host: "stc.vercel.app",
@@ -154,6 +167,10 @@ export const projects: Project[] = [
     title: "A luxury boutique commerce platform, engineered end to end",
     discipline: "E-commerce · Platform",
     category: "Luxury e-commerce",
+    result: "Full commerce system — auth, catalog, cart, admin — with zero security shortcuts",
+    kind: "client",
+    logo: "/logos/vinnysvogue.png",
+    brandFont: "--font-playfair-display",
     year: "2025",
     accent: "#a97e3c",
     host: "vinnysvogue.in",
@@ -199,6 +216,10 @@ export const projects: Project[] = [
     title: "A luxury handmade-bouquet commerce experience",
     discipline: "Design engineering · Commerce",
     category: "Luxury e-commerce",
+    result: "Brand-led motion design kept inside a strict performance budget",
+    kind: "client",
+    logo: "/logos/lunora.jpeg",
+    brandFont: "--font-cormorant-garamond",
     year: "2026",
     accent: "#7a6cf0",
     host: "lunorastudio.vercel.app",
@@ -238,6 +259,10 @@ export const projects: Project[] = [
     title: "A retro, CRT-inspired developer portfolio",
     discipline: "Frontend · Creative Engineering",
     category: "Creative engineering",
+    result: "Full CRT/pixel visual system running smooth on Next.js 16 + React 19",
+    kind: "personal",
+    logo: "/logos/ved-exe.png",
+    brandFont: "--font-press-start-2p",
     year: "2026",
     accent: "#2f9e57",
     host: "ved.exe.snowbros.me",
@@ -540,4 +565,56 @@ export const stats: Stat[] = [
   { value: "3", label: "Role-based platforms in production" },
   { value: "100", label: "Lighthouse target, across the board" },
   { value: "0", label: "Tolerance for silent failure" },
+];
+
+/** Real paid client work only — used for the trust bar under the hero. Personal
+ *  projects (e.g. the founder's own portfolio) are excluded on purpose. */
+export const clientLogos = projects
+  .filter((p) => p.kind === "client")
+  .map((p) => ({
+    name: p.client,
+    logo: p.logo,
+    slug: p.slug,
+    brandFont: p.brandFont,
+  }));
+
+export type ComparisonRow = {
+  label: string;
+  studio: string;
+  freelancer: string;
+  agency: string;
+};
+
+/** Honest positioning — not fabricated stats, just how the model differs. */
+export const comparisonRows: ComparisonRow[] = [
+  {
+    label: "Who writes your code",
+    studio: "Senior engineer, every line",
+    freelancer: "Depends who you find",
+    agency: "Often junior, rotates",
+  },
+  {
+    label: "Communication",
+    studio: "Direct, no account layer",
+    freelancer: "Direct, but time-boxed",
+    agency: "Through a project manager",
+  },
+  {
+    label: "Architecture ownership",
+    studio: "Designed to outlast launch",
+    freelancer: "Usually scoped to the ask",
+    agency: "Templated, reused across clients",
+  },
+  {
+    label: "Performance & evals",
+    studio: "Budgeted and enforced in CI",
+    freelancer: "Rarely instrumented",
+    agency: "Varies by team",
+  },
+  {
+    label: "Active clients at a time",
+    studio: "Fewer than 5",
+    freelancer: "As many as they can juggle",
+    agency: "Dozens, in parallel",
+  },
 ];

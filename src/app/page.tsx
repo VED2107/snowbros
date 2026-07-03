@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Hero } from "@/components/sections/hero";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,10 @@ import {
   testimonials,
   repos,
   github,
+  clientLogos,
+  comparisonRows,
 } from "@/lib/content";
+import { site } from "@/lib/site";
 
 /* Shared section heading — mono eyebrow + sans title + optional link */
 function SectionHead({
@@ -76,6 +80,36 @@ export default function HomePage() {
               {i > 0 && <span className="text-accent/40">/</span>}
               {c}
             </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Trust bar — real, shipped clients only. Personal projects excluded. */}
+      <div className="border-b border-hairline bg-background">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-10 gap-y-4 px-[var(--spacing-gutter)] py-7">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+            Shipped for
+          </span>
+          {clientLogos.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/work/${c.slug}`}
+              className="group/brand flex flex-col items-center gap-2 opacity-70 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0"
+            >
+              <Image
+                src={c.logo}
+                alt={c.name}
+                width={120}
+                height={32}
+                className="h-7 w-auto object-contain"
+              />
+              <span
+                style={{ fontFamily: `var(${c.brandFont})` }}
+                className="text-[13px] text-secondary transition-colors group-hover/brand:text-ink"
+              >
+                {c.name}
+              </span>
+            </Link>
           ))}
         </div>
       </div>
@@ -179,6 +213,10 @@ export default function HomePage() {
                 </h3>
                 <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-secondary">
                   {feature.summary}
+                </p>
+                <p className="mt-5 inline-flex items-center gap-2 rounded-md border border-hairline bg-accent-weak/60 px-3 py-1.5 font-mono text-[12px] text-accent">
+                  <Icon name="check" className="text-[13px]" />
+                  {feature.result}
                 </p>
               </div>
               <div>
@@ -486,6 +524,31 @@ export default function HomePage() {
                 Quiet on the outside. Rigorous underneath.
               </h2>
             </Reveal>
+            <Reveal delay={0.1}>
+              <Link
+                href="/about"
+                className="group/founder mt-10 flex max-w-md items-center gap-4 rounded-[var(--radius-lg)] border border-hairline bg-surface p-5 transition-colors hover:border-hairline-strong"
+              >
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-accent-weak font-mono text-sm text-accent ring-1 ring-inset ring-[rgba(36,66,58,0.14)]">
+                  {site.founder.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </span>
+                <span>
+                  <span className="block text-sm font-medium text-ink">
+                    {site.founder.name}
+                  </span>
+                  <span className="mt-0.5 block font-mono text-xs text-muted">
+                    {site.founder.role} · {site.location}
+                  </span>
+                </span>
+                <Icon
+                  name="arrow-up-right"
+                  className="ml-auto text-[16px] text-muted transition-[color,transform] duration-300 group-hover/founder:-translate-y-0.5 group-hover/founder:translate-x-0.5 group-hover/founder:text-accent"
+                />
+              </Link>
+            </Reveal>
           </div>
           <RevealGroup className="flex flex-col">
             {values.map((v, i) => (
@@ -517,6 +580,47 @@ export default function HomePage() {
             ))}
           </RevealGroup>
         </div>
+      </Section>
+
+      {/* Comparison — honest positioning, not fabricated stats */}
+      <Section className="border-t border-hairline bg-elevated">
+        <SectionHead
+          eyebrow="// why a studio"
+          title="What actually changes when you hire us."
+        />
+
+        <Reveal className="mt-14 overflow-x-auto">
+          <table className="w-full min-w-[640px] border-collapse overflow-hidden rounded-[var(--radius-lg)] border border-hairline bg-surface text-left text-sm">
+            <thead>
+              <tr className="border-b border-hairline">
+                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+                  &nbsp;
+                </th>
+                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+                  SNOWBROS
+                </th>
+                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+                  Freelancer
+                </th>
+                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+                  Agency
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonRows.map((row) => (
+                <tr key={row.label} className="border-b border-hairline last:border-b-0">
+                  <td className="p-5 font-medium text-ink">{row.label}</td>
+                  <td className="bg-accent-weak/50 p-5 font-medium text-accent">
+                    {row.studio}
+                  </td>
+                  <td className="p-5 text-secondary">{row.freelancer}</td>
+                  <td className="p-5 text-secondary">{row.agency}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Reveal>
       </Section>
 
       {/* CTA — forest panel */}

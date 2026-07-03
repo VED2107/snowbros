@@ -6,6 +6,7 @@ import { HeadlineReveal } from "@/components/motion/headline";
 import { Counter } from "@/components/motion/counter";
 import { TerminalCard } from "@/components/ui/terminal-card";
 import { MetricWidget } from "@/components/ui/metric-widget";
+import { site } from "@/lib/site";
 
 export function Hero() {
   return (
@@ -42,7 +43,13 @@ export function Hero() {
           {/* Editorial column */}
           <div>
             <Reveal delay={0.04}>
-              <p className="eyebrow">Software engineering studio</p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <p className="eyebrow">Software engineering studio</p>
+                <span className="inline-flex items-center gap-2 rounded-full border border-hairline bg-accent-weak/60 px-3 py-1 font-mono text-[11px] text-accent">
+                  <span className="status-dot scale-75" />
+                  {site.status}
+                </span>
+              </div>
             </Reveal>
 
             <HeadlineReveal
