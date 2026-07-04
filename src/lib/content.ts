@@ -589,7 +589,7 @@ export type ComparisonRow = {
 export const comparisonRows: ComparisonRow[] = [
   {
     label: "Who writes your code",
-    studio: "Senior engineer, every line",
+    studio: "Engineer + AI, every line reviewed",
     freelancer: "Depends who you find",
     agency: "Often junior, rotates",
   },
