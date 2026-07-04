@@ -6,7 +6,7 @@ export const site = {
     "SNOWBROS is an independent software engineering studio building scalable SaaS platforms, AI applications, premium websites, automation systems, and internal business tools engineered for long-term growth.",
   longDescription:
     "SNOWBROS is a product-focused software engineering studio founded by Ved Chauhan. We specialize in modern web applications, AI-powered products, SaaS platforms, developer tools, and cloud-native systems. Every project is engineered with scalability, maintainability, accessibility, and performance as first principles.",
-  url: "https://snowbros.me",
+  url: "https://www.snowbros.me",
   locale: "en_US",
   email: "snowbros2107@gmail.com",
   founderEmail: "vedchauhan2107@gmail.com",
