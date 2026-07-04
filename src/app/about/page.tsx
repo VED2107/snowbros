@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
@@ -7,12 +8,12 @@ import { Icon } from "@/components/ui/icon";
 import { values, stats } from "@/lib/content";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
     "SNOWBROS is an independent software engineering studio founded by Ved Chauhan, building software for startups, businesses, and founders — engineered for long-term maintainability, scalability, and performance.",
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 
 const principles = [
   {

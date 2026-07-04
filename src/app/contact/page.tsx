@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
@@ -7,12 +8,12 @@ import { ContactForm } from "./contact-form";
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
     "Tell us what you're building. We reply to every serious inquiry within one working day.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 const channels: { label: string; value: string; href: string; icon: IconName }[] =
   [

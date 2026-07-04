@@ -9,6 +9,7 @@ import { LivePreview } from "@/components/ui/live-preview";
 import { Icon } from "@/components/ui/icon";
 import { projects, getProject } from "@/lib/content";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -20,16 +21,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return {
+  return pageMetadata({
     title: `${project.client} — Case Study`,
     description: project.summary,
-    alternates: { canonical: `/work/${project.slug}` },
-    openGraph: {
-      type: "article",
-      title: project.title,
-      description: project.summary,
-    },
-  };
+    path: `/work/${project.slug}`,
+    type: "article",
+  });
 }
 
 export default async function CaseStudyPage({ params }: Params) {

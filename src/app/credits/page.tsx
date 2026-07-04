@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
@@ -6,12 +7,12 @@ import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { Icon, type IconName } from "@/components/ui/icon";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Credits",
   description:
     "Built with care, engineered with intention. The people, studio, and technology behind SNOWBROS.",
-  alternates: { canonical: "/credits" },
-};
+  path: "/credits",
+});
 
 const founderLinks: { label: string; value: string; href: string; icon: IconName }[] =
   [

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
@@ -6,9 +7,12 @@ import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { posts } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Engineering Blog",
-  description:
-    "Notes on performance, applied AI, infrastructure, and the craft of building software that lasts.",
+  ...pageMetadata({
+    title: "Engineering Blog",
+    description:
+      "Notes on performance, applied AI, infrastructure, and the craft of building software that lasts.",
+    path: "/blog",
+  }),
   alternates: {
     canonical: "/blog",
     types: { "application/rss+xml": "/rss.xml" },

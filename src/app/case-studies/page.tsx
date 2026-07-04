@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
@@ -6,12 +7,12 @@ import { Icon } from "@/components/ui/icon";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { projects } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Case Studies",
   description:
     "In-depth accounts of how SNOWBROS approached hard engineering problems — the constraints, the decisions, and the outcomes.",
-  alternates: { canonical: "/case-studies" },
-};
+  path: "/case-studies",
+});
 
 export default function CaseStudiesPage() {
   return (

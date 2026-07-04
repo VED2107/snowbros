@@ -109,11 +109,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — Software Engineering Studio`,
     description: site.description,
+    images: [`${site.url}/opengraph-image`],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — Software Engineering Studio`,
     description: site.description,
+    images: [`${site.url}/opengraph-image`],
   },
   robots: {
     index: true,

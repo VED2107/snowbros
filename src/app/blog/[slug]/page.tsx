@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { posts, getPost } from "@/lib/content";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -16,16 +17,15 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  return {
+  const meta = pageMetadata({
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: "article",
-      title: post.title,
-      description: post.excerpt,
-      publishedTime: post.date,
-    },
+    path: `/blog/${post.slug}`,
+    type: "article",
+  });
+  return {
+    ...meta,
+    openGraph: { ...meta.openGraph, type: "article", publishedTime: post.date },
   };
 }
 

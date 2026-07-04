@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { LegalPage } from "@/components/sections/legal-page";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Security",
   description:
     "How SNOWBROS secures this site and how to responsibly disclose a vulnerability.",
-  alternates: { canonical: "/security" },
-};
+  path: "/security",
+});
 
 export default function SecurityPage() {
   return (

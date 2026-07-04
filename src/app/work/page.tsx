@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
@@ -7,12 +8,12 @@ import { Icon } from "@/components/ui/icon";
 import { Reveal } from "@/components/motion/reveal";
 import { projects } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Work",
   description:
     "Selected work from SNOWBROS — education platforms, luxury e-commerce, and creative engineering, shipped end to end and live in production.",
-  alternates: { canonical: "/work" },
-};
+  path: "/work",
+});
 
 export default function WorkPage() {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
@@ -6,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Careers",
   description:
     "Join a small studio that takes craft seriously. Open roles in product engineering, infrastructure, and applied AI.",
-  alternates: { canonical: "/careers" },
-};
+  path: "/careers",
+});
 
 const roles = [
   {

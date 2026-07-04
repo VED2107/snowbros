@@ -21,6 +21,19 @@ export function OrganizationJsonLd() {
         url: site.url,
         description: site.description,
         email: site.email,
+        logo: `${site.url}/snowbros-logo.svg`,
+        image: `${site.url}/opengraph-image`,
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "IN",
+        },
+        contactPoint: {
+          "@type": "ContactPoint",
+          email: site.email,
+          contactType: "customer support",
+          areaServed: "Worldwide",
+          availableLanguage: ["English"],
+        },
         founder: {
           "@type": "Person",
           name: site.founder.name,

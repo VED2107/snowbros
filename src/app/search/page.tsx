@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Suspense } from "react";
 import { PageHeader } from "@/components/sections/page-header";
 import { Container } from "@/components/layout/container";
 import { SearchClient } from "./search-client";
 
 export const metadata: Metadata = {
-  title: "Search",
-  description: "Search SNOWBROS work, services, and writing.",
-  alternates: { canonical: "/search" },
+  ...pageMetadata({
+    title: "Search",
+    description: "Search SNOWBROS work, services, and writing.",
+    path: "/search",
+  }),
   robots: { index: false, follow: true },
 };
 

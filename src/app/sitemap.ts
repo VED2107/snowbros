@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/open-source",
     "/careers",
     "/contact",
+    "/credits",
     "/privacy",
     "/terms",
     "/cookies",

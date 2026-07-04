@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
@@ -6,12 +7,12 @@ import { Icon } from "@/components/ui/icon";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Open Source",
   description:
     "Tools and libraries SNOWBROS maintains in the open — small, sharp, and dependable.",
-  alternates: { canonical: "/open-source" },
-};
+  path: "/open-source",
+});
 
 const repos = [
   {

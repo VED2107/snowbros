@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
 import { services } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Services",
   description:
     "Software platforms, SaaS products, AI applications, developer tools, cloud infrastructure, and automation — engineered end to end.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 const process = [
   {

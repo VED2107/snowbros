@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/sections/page-header";
 import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Labs",
   description:
     "Experiments, prototypes, and research from SNOWBROS — where we explore ideas before they become products.",
-  alternates: { canonical: "/labs" },
-};
+  path: "/labs",
+});
 
 const experiments = [
   {
