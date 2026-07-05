@@ -69,6 +69,43 @@ export function WebsiteJsonLd() {
   );
 }
 
+export function SoftwareApplicationJsonLd({
+  name,
+  description,
+  url,
+  repo,
+  image,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  repo: string;
+  image?: string;
+}) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name,
+        description,
+        url,
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "macOS, Linux, Windows",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        downloadUrl: repo,
+        license: "https://spdx.org/licenses/MIT.html",
+        image: image ?? `${site.url}/opengraph-image`,
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          url: site.url,
+        },
+      }}
+    />
+  );
+}
+
 export function BreadcrumbJsonLd({
   items,
 }: {

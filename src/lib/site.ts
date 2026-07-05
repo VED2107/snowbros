@@ -46,6 +46,41 @@ export const site = {
 
 export type NavItem = { label: string; href: string };
 
+/** A SNOWBROS product. Atlas is the first. */
+export type Product = {
+  slug: string;
+  name: string;
+  fullName: string;
+  href: string;
+  tagline: string;
+  description: string;
+  status: string;
+  tags: string[];
+  repo: string;
+  logo: string;
+};
+
+export const products: Product[] = [
+  {
+    slug: "atlas",
+    name: "Atlas",
+    fullName: "Snowbros Atlas",
+    href: "/atlas",
+    tagline: "Deterministic engineering intelligence for JavaScript & TypeScript.",
+    description:
+      "Maps your whole project — imports, boundaries, and the dependency manifest — and reports problems it can prove: circular imports, dead files, Next.js server/client leaks, unused dependencies, hardcoded secrets. Native Rust, with an evidence chain for every finding.",
+    status: "v0.1 · Open source",
+    tags: ["Open Source", "Rust", "CLI", "VS Code"],
+    repo: "https://github.com/snowbros-labs/atlas",
+    logo: "/snowbros-logo-forest.svg",
+  },
+];
+
+export const productsNav: NavItem[] = products.map((p) => ({
+  label: p.fullName,
+  href: p.href,
+}));
+
 export const primaryNav: NavItem[] = [
   { label: "Work", href: "/work" },
   { label: "Services", href: "/services" },
@@ -55,6 +90,13 @@ export const primaryNav: NavItem[] = [
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
+  {
+    title: "Products",
+    items: [
+      { label: "Atlas", href: "/atlas" },
+      { label: "All products", href: "/products" },
+    ],
+  },
   {
     title: "Studio",
     items: [

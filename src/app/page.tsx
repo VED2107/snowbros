@@ -20,7 +20,7 @@ import {
   clientLogos,
   comparisonRows,
 } from "@/lib/content";
-import { site } from "@/lib/site";
+import { site, products } from "@/lib/site";
 
 /* Shared section heading — mono eyebrow + sans title + optional link */
 function SectionHead({
@@ -139,6 +139,84 @@ export default function HomePage() {
             </Reveal>
           ))}
         </RevealGroup>
+      </Section>
+
+      {/* Products — SNOWBROS products, featuring Atlas */}
+      <Section className="border-t border-hairline">
+        <SectionHead
+          eyebrow="// products"
+          title="Software we build for ourselves."
+          href="/products"
+          cta="All products"
+        />
+
+        <Reveal className="mt-16">
+          <Link
+            href={products[0].href}
+            className="card-engineered card-glow group/prod grid overflow-hidden lg:grid-cols-[1.1fr_0.9fr]"
+          >
+            <div className="order-2 flex flex-col justify-between gap-8 p-8 md:p-11 lg:order-1">
+              <div>
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={products[0].logo}
+                    alt=""
+                    width={44}
+                    height={44}
+                    unoptimized
+                    className="h-11 w-11"
+                  />
+                  <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
+                    <span className="status-dot scale-75" /> {products[0].status}
+                  </span>
+                </div>
+                <h3 className="mt-6 text-[length:var(--text-2xl)] font-semibold leading-tight tracking-[-0.02em]">
+                  {products[0].fullName}
+                </h3>
+                <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-secondary">
+                  {products[0].description}
+                </p>
+              </div>
+              <div>
+                <div className="flex flex-wrap gap-2">
+                  {products[0].tags.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-md border border-hairline bg-surface px-2.5 py-1 font-mono text-[11px] text-secondary"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-7 flex items-center gap-5 border-t border-hairline pt-6">
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+                    Learn more
+                    <Icon
+                      name="arrow-right"
+                      className="text-[16px] transition-transform duration-300 group-hover/prod:translate-x-1"
+                    />
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted">
+                    <Icon name="github" className="text-[13px]" />
+                    Open source
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="order-1 grid place-items-center overflow-hidden bg-primary p-8 lg:order-2">
+              <span className="grid h-24 w-24 place-items-center rounded-[var(--radius-xl)] bg-[#f8f9f8]/95 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover/prod:scale-[1.04]">
+                <Image
+                  src={products[0].logo}
+                  alt=""
+                  width={56}
+                  height={56}
+                  unoptimized
+                  className="h-14 w-14"
+                />
+              </span>
+            </div>
+          </Link>
+        </Reveal>
       </Section>
 
       {/* Architecture — SVG draws on scroll */}
