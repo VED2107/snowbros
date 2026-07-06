@@ -8,6 +8,7 @@ import { Icon, type IconName } from "@/components/ui/icon";
 import { Card } from "@/components/ui/card";
 import { MetricWidget } from "@/components/ui/metric-widget";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
+import { Counter } from "@/components/motion/counter";
 import {
   BreadcrumbJsonLd,
   SoftwareApplicationJsonLd,
@@ -17,13 +18,32 @@ const atlas = products.find((p) => p.slug === "atlas")!;
 const repo = atlas.repo;
 const docs = `${repo}/blob/master`;
 
-export const metadata: Metadata = pageMetadata({
-  title: "Atlas",
-  description:
-    "Snowbros Atlas — deterministic static analysis for JavaScript & TypeScript. Maps your whole project and reports problems it can prove: circular imports, dead files, Next.js server/client leaks, unused deps, secrets. Native Rust, evidence for every finding.",
-  path: "/atlas",
-  images: [`${site.url}/atlas/og-image.png`],
-});
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: "Atlas",
+    description:
+      "Snowbros Atlas — deterministic engineering intelligence for JavaScript, TypeScript, React & Next.js. Maps your whole project and reports problems it can prove: circular imports, dead files, Next.js server/client leaks, React hook misuse, unused deps, secrets. 19 rules, native Rust, LSP + VS Code, evidence for every finding.",
+    path: "/atlas",
+    images: [`${site.url}/atlas/og-image.png`],
+  }),
+  keywords: [
+    "static analysis",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "circular imports",
+    "dead code",
+    "unused dependencies",
+    "SARIF",
+    "LSP",
+    "VS Code extension",
+    "deterministic",
+    "Rust",
+    "monorepo",
+    "code health",
+  ],
+};
 
 const features: { icon: IconName; title: string; body: string }[] = [
   {
@@ -44,28 +64,81 @@ const features: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "layers",
     title: "Whole-project graph",
-    body: "A semantic import graph with cycle detection and dead-file reachability — the structural problems that are invisible to per-file linters.",
+    body: "Symbol, import, and file graphs with cycle detection and dead-file reachability — plus a Next.js project model and a React semantic model. The structural problems per-file linters can't see.",
   },
   {
     icon: "devtools",
     title: "Meets you everywhere",
-    body: "Terminal, JSON, SARIF for GitHub code scanning, self-contained HTML, a health scorecard, a built-in LSP, and a first-party VS Code extension.",
+    body: "Terminal, JSON, SARIF for GitHub code scanning, self-contained HTML, and Markdown — with a health scorecard, a built-in LSP, and a first-party VS Code extension.",
   },
   {
     icon: "gauge",
     title: "Fixes it can prove",
-    body: "sb fix applies guarded, idempotent edits for unused deps and env vars. Files that drifted since analysis are skipped, never clobbered.",
+    body: "The auto-fix engine applies guarded, idempotent edits for unused deps and env vars. Files that drifted since analysis are skipped, never clobbered.",
   },
 ];
 
 const pipeline = [
-  { step: "scan", note: "ignore-aware walk" },
-  { step: "parse", note: "Tree-sitter · cached" },
-  { step: "facts", note: "imports · exports · env" },
-  { step: "resolve", note: "tsconfig · aliases" },
-  { step: "graph", note: "SCC · reachability" },
-  { step: "rules", note: "evidence-first" },
-  { step: "report", note: "+ scorecard" },
+  { step: "Scanner", note: "ignore-aware walk" },
+  { step: "Tree-sitter", note: "parse · cached" },
+  { step: "Atlas IR", note: "typed facts" },
+  { step: "Semantic Engine", note: "resolve · model" },
+  { step: "Symbol Graph", note: "symbols · imports · files" },
+  { step: "Rule Engine", note: "19 rules · evidence-first" },
+  { step: "Auto Fix", note: "guarded edits" },
+  { step: "CLI", note: "sb · snowbros" },
+  { step: "LSP", note: "editor diagnostics" },
+  { step: "Outputs", note: "terminal · json · sarif · html · md" },
+];
+
+const languages = ["JavaScript", "TypeScript", "JSX", "TSX"];
+const frameworks = ["Next.js", "React"];
+
+const nextjsCapabilities = [
+  "App Router",
+  "Pages Router",
+  "Mixed Router",
+  "Route Groups",
+  "Dynamic Routes",
+  "Parallel Routes",
+  "Intercepting Routes",
+  "Metadata API",
+  "Middleware",
+  "Server Components",
+  "Client Components",
+  "Route Handlers",
+  "loading.tsx",
+  "layout.tsx",
+  "template.tsx",
+  "error.tsx",
+  "global-error.tsx",
+  "not-found.tsx",
+  "generateMetadata",
+  "generateStaticParams",
+];
+
+const reactCapabilities: { title: string; body: string }[] = [
+  { title: "Component detection", body: "Function and arrow components resolved from the semantic model, not string matching." },
+  { title: "Hook detection", body: "Built-in and custom hooks identified by call enclosure and naming predicate." },
+  { title: "JSX analysis", body: "JSX and TSX parsed and understood as part of the component graph." },
+  { title: "Async client component rule", body: "Flags `async` components in client boundaries — a real runtime hazard." },
+  { title: "Hook misuse detection", body: "Catches hooks called outside a component or hook, against the rules of hooks." },
+  { title: "Component naming", body: "Enforces PascalCase component and use-prefixed hook naming conventions." },
+];
+
+const outputs = [
+  { name: "Terminal", note: "colored, human-readable summary" },
+  { name: "JSON", note: "canonical, machine-readable report" },
+  { name: "SARIF", note: "GitHub code scanning integration" },
+  { name: "HTML", note: "self-contained health report" },
+  { name: "Markdown", note: "drop into PRs and docs" },
+];
+
+const releaseStatus = [
+  { label: "CLI / Engine", value: "0.2.1" },
+  { label: "VS Code Extension", value: "0.2.2" },
+  { label: "Rules", value: "19" },
+  { label: "Tests passing", value: "265" },
 ];
 
 const comparison: {
@@ -85,10 +158,10 @@ const comparison: {
 ];
 
 const installs = [
+  { label: "npm (global)", code: "npm install -g @snowbros/atlas" },
   { label: "npm — no install needed", code: "npx snowbros analyze" },
   { label: "Homebrew (macOS, Linux)", code: "brew install snowbros-labs/tap/snowbros-atlas" },
   { label: "Cargo", code: "cargo install snowbros-atlas --locked" },
-  { label: "Shell (macOS, Linux)", code: "curl -LsSf https://github.com/snowbros-labs/atlas/releases/latest/download/snowbros-atlas-installer.sh | sh" },
 ];
 
 const metrics = [
@@ -100,7 +173,7 @@ const metrics = [
 const roadmap = [
   {
     phase: "Now",
-    items: ["package.json main/exports resolution", "Monorepo / workspace awareness", "VS Code Marketplace publish"],
+    items: ["package.json main/exports resolution", "Monorepo / workspace awareness", "Deeper React semantic coverage"],
   },
   {
     phase: "Next",
@@ -178,9 +251,10 @@ export default function AtlasPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-secondary">
-                {atlas.fullName} maps your whole JavaScript/TypeScript project and
-                reports problems it can <span className="text-ink">prove</span> —
-                circular imports, dead files, Next.js server/client leaks, unused
+                {atlas.fullName} maps your whole JavaScript, TypeScript, React,
+                and Next.js project and reports problems it can{" "}
+                <span className="text-ink">prove</span> — circular imports, dead
+                files, Next.js server/client leaks, React hook misuse, unused
                 dependencies, secrets. Native Rust, with the evidence attached.
               </p>
             </Reveal>
@@ -210,6 +284,12 @@ export default function AtlasPage() {
                 </Reveal>
               ))}
             </RevealGroup>
+            <Reveal delay={0.2}>
+              <p className="mt-6 font-mono text-[11px] text-muted">
+                CLI v0.2.1 · VS Code extension v0.2.2 · 19 rules · 265 tests
+                passing
+              </p>
+            </Reveal>
           </div>
 
           {/* Terminal demo — real captured output */}
@@ -288,6 +368,107 @@ export default function AtlasPage() {
         </Reveal>
       </Section>
 
+      {/* Languages & Frameworks */}
+      <Section className="border-t border-hairline">
+        <Eyebrow>// supported</Eyebrow>
+        <Reveal delay={0.05}>
+          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
+            Built for the JavaScript and TypeScript ecosystem.
+          </h2>
+        </Reveal>
+        <div className="mt-14 grid gap-5 md:grid-cols-2">
+          <Reveal as="div" className="card-engineered p-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+              Languages
+            </p>
+            <RevealGroup className="mt-5 flex flex-wrap gap-2.5">
+              {languages.map((l) => (
+                <Reveal
+                  as="span"
+                  key={l}
+                  className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 font-mono text-[13px] text-ink"
+                >
+                  <Icon name="check" className="text-[13px] text-accent" />
+                  {l}
+                </Reveal>
+              ))}
+            </RevealGroup>
+          </Reveal>
+          <Reveal as="div" className="card-engineered p-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+              Frameworks
+            </p>
+            <RevealGroup className="mt-5 flex flex-wrap gap-2.5">
+              {frameworks.map((f) => (
+                <Reveal
+                  as="span"
+                  key={f}
+                  className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 font-mono text-[13px] text-ink"
+                >
+                  <Icon name="check" className="text-[13px] text-accent" />
+                  {f}
+                </Reveal>
+              ))}
+            </RevealGroup>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* Next.js intelligence */}
+      <Section className="border-t border-hairline bg-elevated">
+        <Eyebrow>// next.js intelligence</Eyebrow>
+        <Reveal delay={0.05}>
+          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
+            It understands the Next.js project model.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-secondary">
+            App Router, Pages Router, and mixed setups — with the routing
+            conventions, special files, and server/client boundaries resolved
+            into a real model, not guessed by filename.
+          </p>
+        </Reveal>
+        <RevealGroup className="mt-12 flex flex-wrap gap-2.5">
+          {nextjsCapabilities.map((c) => (
+            <Reveal
+              as="span"
+              key={c}
+              className="rounded-md border border-hairline bg-surface px-3 py-2 font-mono text-[12px] text-secondary"
+            >
+              {c}
+            </Reveal>
+          ))}
+        </RevealGroup>
+      </Section>
+
+      {/* React */}
+      <Section className="border-t border-hairline">
+        <Eyebrow>// react semantic model</Eyebrow>
+        <Reveal delay={0.05}>
+          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
+            A semantic model for React (M1).
+          </h2>
+        </Reveal>
+        <RevealGroup className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {reactCapabilities.map((c) => (
+            <Reveal as="div" key={c.title}>
+              <div className="card-engineered h-full p-6">
+                <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] border border-hairline bg-accent-weak text-accent">
+                  <Icon name="git-branch" className="text-[20px]" />
+                </span>
+                <h3 className="mt-5 text-base font-semibold tracking-[-0.01em]">
+                  {c.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-secondary">
+                  {c.body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </RevealGroup>
+      </Section>
+
       {/* Comparison */}
       <Section className="border-t border-hairline">
         <Eyebrow>// how it compares</Eyebrow>
@@ -360,15 +541,23 @@ export default function AtlasPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-md text-[15px] leading-relaxed text-secondary">
-                The extension wraps the built-in language server, so findings
-                stream into native diagnostics as you save — severities mapped to
-                Errors, Warnings, Hints, with click-to-navigate. Analyze, explain
-                a rule, open an HTML report, or check the health score without
-                leaving the editor.
+                Published on the VS Code Marketplace (v0.2.2). The extension
+                wraps the built-in language server, so findings stream into
+                native diagnostics in real time as you save — severities mapped
+                to Errors, Warnings, Hints, with click-to-navigate. Analyze,
+                explain a rule, open an HTML report, or check the health score
+                without leaving the editor.
               </p>
             </Reveal>
             <Reveal delay={0.15}>
               <div className="mt-8 flex flex-wrap gap-3">
+                <Button
+                  href="https://marketplace.visualstudio.com/items?itemName=snowbros.snowbros-atlas"
+                  variant="primary"
+                >
+                  Get the extension
+                  <Icon name="arrow-up-right" className="text-[16px]" />
+                </Button>
                 <Button href={`${docs}/vscode/README.md`} variant="secondary">
                   Extension docs
                   <Icon name="arrow-right" className="text-[16px]" />
@@ -395,8 +584,28 @@ export default function AtlasPage() {
         </div>
       </Section>
 
-      {/* Performance */}
+      {/* Outputs */}
       <Section className="border-t border-hairline bg-elevated">
+        <Eyebrow>// outputs</Eyebrow>
+        <Reveal delay={0.05}>
+          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
+            One analysis, every format you need.
+          </h2>
+        </Reveal>
+        <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {outputs.map((o) => (
+            <Reveal as="div" key={o.name} className="card-engineered p-5">
+              <p className="font-mono text-sm font-medium text-ink">{o.name}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-secondary">
+                {o.note}
+              </p>
+            </Reveal>
+          ))}
+        </RevealGroup>
+      </Section>
+
+      {/* Performance */}
+      <Section className="border-t border-hairline">
         <Eyebrow>// performance</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -482,6 +691,44 @@ export default function AtlasPage() {
               More in the FAQ →
             </a>
           </p>
+        </Reveal>
+      </Section>
+
+      {/* Release status */}
+      <Section className="border-t border-hairline">
+        <Eyebrow>// release status</Eyebrow>
+        <Reveal delay={0.05}>
+          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
+            Production-ready, and shipping.
+          </h2>
+        </Reveal>
+        <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {releaseStatus.map((r) => (
+            <Reveal as="div" key={r.label} className="card-engineered p-6">
+              <p className="text-[length:var(--text-3xl)] font-normal leading-none tracking-[-0.02em] text-ink">
+                {/^\d+$/.test(r.value) ? <Counter value={r.value} /> : r.value}
+              </p>
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                {r.label}
+              </p>
+            </Reveal>
+          ))}
+        </RevealGroup>
+        <Reveal delay={0.1}>
+          <div className="mt-8 flex flex-wrap items-center gap-2.5">
+            <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+              Cross-platform
+            </span>
+            {["Windows", "Linux", "macOS"].map((p) => (
+              <span
+                key={p}
+                className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-1.5 font-mono text-[12px] text-secondary"
+              >
+                <Icon name="check" className="text-[12px] text-accent" />
+                {p}
+              </span>
+            ))}
+          </div>
         </Reveal>
       </Section>
 

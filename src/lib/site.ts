@@ -68,9 +68,9 @@ export const products: Product[] = [
     href: "/atlas",
     tagline: "Deterministic engineering intelligence for JavaScript & TypeScript.",
     description:
-      "Maps your whole project — imports, boundaries, and the dependency manifest — and reports problems it can prove: circular imports, dead files, Next.js server/client leaks, unused dependencies, hardcoded secrets. Native Rust, with an evidence chain for every finding.",
-    status: "v0.1 · Open source",
-    tags: ["Open Source", "Rust", "CLI", "VS Code"],
+      "Maps your whole JavaScript, TypeScript, React, and Next.js project — imports, boundaries, framework model, and the dependency manifest — and reports problems it can prove: circular imports, dead files, Next.js server/client leaks, React hook misuse, unused dependencies, hardcoded secrets. Native Rust, with an evidence chain for every finding.",
+    status: "v0.2.1 · Open source",
+    tags: ["Open Source", "Rust", "CLI", "VS Code", "React"],
     repo: "https://github.com/snowbros-labs/atlas",
     logo: "/snowbros-logo-forest.svg",
   },
