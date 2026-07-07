@@ -74,6 +74,19 @@ export const products: Product[] = [
     repo: "https://github.com/snowbros-labs/atlas",
     logo: "/snowbros-logo-forest.svg",
   },
+  {
+    slug: "mentor",
+    name: "Mentor",
+    fullName: "Snowbros Mentor",
+    href: "/mentor",
+    tagline: "Engineering intelligence system for Claude Code — teach or build across the whole stack.",
+    description:
+      "A capability orchestrator for Claude Code that composes only the specialist expertise a task needs — software, backend, frontend, architecture, security, design, AI, DevOps, and leadership. Runs in two modes: TEACH (train toward Principal-grade judgment from first principles) and BUILD (act as an autonomous Staff engineer that routes, produces, and runs the right review gates). Honest by design — no fake token meters, reuses the harness for memory and graphify for codebase graphs.",
+    status: "v1 · Open source",
+    tags: ["Open Source", "Claude Code", "AI", "Skill", "MIT"],
+    repo: "https://github.com/snowbros-labs/mentor-skill",
+    logo: "/snowbros-logo-forest.svg",
+  },
 ];
 
 export const productsNav: NavItem[] = products.map((p) => ({
@@ -94,6 +107,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     title: "Products",
     items: [
       { label: "Atlas", href: "/atlas" },
+      { label: "Mentor", href: "/mentor" },
       { label: "All products", href: "/products" },
     ],
   },
