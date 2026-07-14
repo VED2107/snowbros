@@ -22,14 +22,16 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Atlas",
     description:
-      "Snowbros Atlas — deterministic engineering intelligence for JavaScript, TypeScript, React & Next.js. Maps your whole project and reports problems it can prove: circular imports, dead files, Next.js server/client leaks, React hook misuse, unused deps, secrets. 19 rules, native Rust, LSP + VS Code, evidence for every finding.",
+      "Snowbros Atlas — deterministic engineering intelligence for JavaScript, TypeScript, React, Next.js, and now Python. One shared semantic IR and rule engine across languages: circular imports, dead files, Next.js server/client leaks, React hook misuse, unused deps, secrets, and cross-language complexity. 23 rules, native Rust, LSP + VS Code, evidence for every finding.",
     path: "/atlas",
     images: [`${site.url}/atlas/og-image.png`],
   }),
   keywords: [
     "static analysis",
+    "multi-language",
     "JavaScript",
     "TypeScript",
+    "Python",
     "React",
     "Next.js",
     "circular imports",
@@ -84,14 +86,14 @@ const pipeline = [
   { step: "Atlas IR", note: "typed facts" },
   { step: "Semantic Engine", note: "resolve · model" },
   { step: "Symbol Graph", note: "symbols · imports · files" },
-  { step: "Rule Engine", note: "19 rules · evidence-first" },
+  { step: "Rule Engine", note: "23 rules · evidence-first" },
   { step: "Auto Fix", note: "guarded edits" },
   { step: "CLI", note: "sb · snowbros" },
   { step: "LSP", note: "editor diagnostics" },
   { step: "Outputs", note: "terminal · json · sarif · html · md" },
 ];
 
-const languages = ["JavaScript", "TypeScript", "JSX", "TSX"];
+const languages = ["JavaScript", "TypeScript", "JSX", "TSX", "Python"];
 const frameworks = ["Next.js", "React"];
 
 const nextjsCapabilities = [
@@ -135,10 +137,10 @@ const outputs = [
 ];
 
 const releaseStatus = [
-  { label: "CLI / Engine", value: "0.2.1" },
-  { label: "VS Code Extension", value: "0.2.2" },
-  { label: "Rules", value: "19" },
-  { label: "Tests passing", value: "265" },
+  { label: "CLI / Engine", value: "0.4.0" },
+  { label: "VS Code Extension", value: "0.3.0" },
+  { label: "Rules", value: "23" },
+  { label: "Languages", value: "5" },
 ];
 
 const comparison: {
@@ -172,16 +174,16 @@ const metrics = [
 
 const roadmap = [
   {
-    phase: "Now",
-    items: ["package.json main/exports resolution", "Monorepo / workspace awareness", "Deeper React semantic coverage"],
+    phase: "Shipped",
+    items: ["Multi-language foundation (shared IR)", "Python frontend + resolver", "First cross-language rule (large-function)"],
   },
   {
     phase: "Next",
-    items: ["More rules, driven by real reports", "Rule maturity gating (nursery)", "Wider auto-fix coverage"],
+    items: ["More languages: Go, Rust, Java", "More cross-language rules from real reports", "Rule maturity gating (nursery)"],
   },
   {
     phase: "Later",
-    items: ["Pattern rule engine (no Rust)", "OSV vulnerability data", "A second language family"],
+    items: ["Interprocedural analysis", "Pattern rule engine (no Rust)", "OSV vulnerability data"],
   },
 ];
 
@@ -196,7 +198,7 @@ const faqs = [
   },
   {
     q: "Which languages are supported?",
-    a: "Deep analysis covers the JavaScript/TypeScript family (.js/.jsx/.ts/.tsx and their .mjs/.cjs variants). Other languages are detected for context; more are on the roadmap.",
+    a: "The JavaScript/TypeScript family (.js/.jsx/.ts/.tsx and their .mjs/.cjs variants) and Python (.py). Both lower into one shared semantic IR, so language-neutral rules — import cycles, dead files, unresolved imports, and function complexity — run on either without special-casing. Python ships at preview maturity; Go, Rust, and Java are next on the roadmap.",
   },
   {
     q: "Will it slow down or break my CI?",
@@ -252,10 +254,11 @@ export default function AtlasPage() {
             <Reveal delay={0.1}>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-secondary">
                 {atlas.fullName} maps your whole JavaScript, TypeScript, React,
-                and Next.js project and reports problems it can{" "}
+                Next.js — and now Python — project and reports problems it can{" "}
                 <span className="text-ink">prove</span> — circular imports, dead
                 files, Next.js server/client leaks, React hook misuse, unused
-                dependencies, secrets. Native Rust, with the evidence attached.
+                dependencies, secrets, oversized functions. One semantic engine
+                across languages, native Rust, with the evidence attached.
               </p>
             </Reveal>
             <Reveal delay={0.15}>
@@ -286,8 +289,8 @@ export default function AtlasPage() {
             </RevealGroup>
             <Reveal delay={0.2}>
               <p className="mt-6 font-mono text-[11px] text-muted">
-                CLI v0.2.1 · VS Code extension v0.2.2 · 19 rules · 265 tests
-                passing
+                CLI v0.4.0 · VS Code extension v0.3.0 · 23 rules · JS/TS +
+                Python
               </p>
             </Reveal>
           </div>
@@ -370,11 +373,27 @@ export default function AtlasPage() {
 
       {/* Languages & Frameworks */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// supported</Eyebrow>
+        <Eyebrow>// multi-language</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
-            Built for the JavaScript and TypeScript ecosystem.
+            One engine. Multiple languages.
           </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-secondary">
+            Every language lowers into one shared semantic IR, so a rule is
+            written once and runs everywhere it applies — never a{" "}
+            <code className="font-mono text-[13px] text-ink">
+              if language ==
+            </code>{" "}
+            branch buried in a detector. Import cycles, dead files, unresolved
+            imports, and the cross-language{" "}
+            <code className="font-mono text-[13px] text-ink">
+              complexity/large-function
+            </code>{" "}
+            rule already run on Python and the JavaScript/TypeScript family
+            alike. Python ships at preview maturity.
+          </p>
         </Reveal>
         <div className="mt-14 grid gap-5 md:grid-cols-2">
           <Reveal as="div" className="card-engineered p-6">
@@ -541,7 +560,7 @@ export default function AtlasPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-md text-[15px] leading-relaxed text-secondary">
-                Published on the VS Code Marketplace (v0.2.2). The extension
+                Published on the VS Code Marketplace (v0.3.0). The extension
                 wraps the built-in language server, so findings stream into
                 native diagnostics in real time as you save — severities mapped
                 to Errors, Warnings, Hints, with click-to-navigate. Analyze,
