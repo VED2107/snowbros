@@ -323,6 +323,26 @@ export type Repo = {
 
 export const repos: Repo[] = [
   {
+    name: "atlas",
+    description:
+      "Snowbros Atlas — deterministic multi-language static analysis. One shared semantic IR across JavaScript/TypeScript and Python; native Rust, LSP + VS Code, evidence for every finding.",
+    language: "Rust",
+    stars: 1,
+    updated: "2026-07-14",
+    url: "https://github.com/snowbros-labs/atlas",
+    homepage: "https://snowbros.me/atlas",
+  },
+  {
+    name: "mentor-skill",
+    description:
+      "Snowbros Mentor — an engineering-intelligence orchestrator for Claude Code that composes only the specialist expertise a task needs, in TEACH or BUILD mode.",
+    language: "Markdown",
+    stars: 0,
+    updated: "2026-07-07",
+    url: "https://github.com/snowbros-labs/mentor-skill",
+    homepage: "https://snowbros.me/mentor",
+  },
+  {
     name: "portfolio",
     description:
       "VED.EXE — retro gaming developer portfolio. Next.js 16, React 19, TypeScript, GSAP, Framer Motion.",
