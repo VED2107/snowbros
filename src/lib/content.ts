@@ -112,6 +112,61 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "vinnys-atelier",
+    client: "Vinny's Fashion Hub",
+    title: "A retail operating system for a working boutique",
+    discipline: "Product engineering · Retail systems",
+    category: "Retail platform",
+    result: "One codebase runs the counter on the web and as a Windows desktop app",
+    kind: "client",
+    logo: "/logos/atelier.png",
+    brandFont: "--font-instrument-serif",
+    year: "2026",
+    accent: "#0f4c4a",
+    host: "atelier.vinnysvogue.in",
+    tagline: "Everything the counter needs. One screen.",
+    status: "Live",
+    role: "Product engineering · architecture · design",
+    screenshot: "/work/atelier.png",
+    summary:
+      "The system the shop actually runs on: a keyboard-first till, invoices, inventory, customers and trade reports — shipped to the web and packaged as a desktop app from the same codebase.",
+    overview:
+      "Vinny's Atelier is the operating system for a working boutique. The till is the home screen: a draft invoice that takes garments from the catalogue on a keystroke, applies discounts, settles against cash, UPI or a Razorpay dynamic QR, and prints to the counter's thermal printer. Behind it sit inventory with a stock-movement ledger, customer records ranked by lifetime spend, and reports that read net of discounts.",
+    problem:
+      "The boutique was running its day on a paper book and a phone camera. Invoices were hand-written and unnumbered, stock was whatever the shelf looked like, and a return weeks later had nothing to trace it back to. Off-the-shelf POS software assumed a chain, a barcode gun and a monthly fee — none of which fit a single-counter shop selling one-off pieces.",
+    solution:
+      "We built a single Next.js application around the counter's real workflow, on Postgres with row-level security and an operator allowlist rather than open sign-up. Money is an integer paise type end to end, so no float ever touches a rupee. The same deployment is packaged with Tauri as a Windows desktop app — a shell over the live application, not a second frontend to keep in step. Invoices generate as PDFs and as thermal receipts, and every screen the shop uses is covered by an end-to-end suite that runs against the real database and cleans up after itself.",
+    technologies: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "PostgreSQL",
+      "Supabase",
+      "Drizzle ORM",
+      "Tauri 2",
+      "Razorpay",
+      "Tailwind CSS",
+      "Playwright",
+    ],
+    highlights: [
+      "Keyboard-first till: catalogue, quantities and discounts without leaving the keys",
+      "Same codebase ships to the web and as a signed Windows desktop build",
+      "Row-level security and an operator allowlist — there is no public sign-up",
+      "Money handled as integer paise; no floating point in a rupee figure",
+      "Invoices as PDF and as thermal receipts, from one document model",
+    ],
+    features: [
+      "Draft invoices with per-line quantity and discount, settled to cash, UPI or Razorpay",
+      "Inventory by variant with a stock-movement ledger the till deducts against",
+      "Customer records with lifetime spend, searchable by name or phone",
+      "Trade reports net of discounts — daily takings, average bill, units sold",
+      "Public storefront for the boutique alongside the private workspace",
+    ],
+    links: {
+      live: "https://atelier.vinnysvogue.in",
+    },
+  },
+  {
     slug: "stc-academy",
     client: "STC Academy",
     title: "A full-stack education platform built for real classrooms",
