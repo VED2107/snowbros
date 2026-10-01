@@ -1,7 +1,7 @@
 import type { ContactInput } from "./schema";
 
 /*
-  Branded Resend email for contact-form submissions — SNOWBROS engineering vibe.
+  Branded Resend email for contact-form submissions, SNOWBROS engineering vibe.
   Email-safe: table layout, all styles inline, web-safe fonts, no external assets.
   Renders both an HTML body and a plaintext fallback.
 */
@@ -13,10 +13,10 @@ const C = {
   secondary: "#5f6468",
   muted: "#8a8f92",
   border: "#d6dbd8",
-  accent: "#24423a",
+  accent: "#161513",
   accentWeak: "#e8f0ec",
   terminal: "#0d1310",
-  terminalGreen: "#8fd8c0",
+  terminalGreen: "#e8936c",
   mono: "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
   sans: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
 };
@@ -30,7 +30,7 @@ function esc(s: string) {
 }
 
 function row(label: string, value?: string) {
-  const v = value && value.trim() ? esc(value) : "—";
+  const v = value && value.trim() ? esc(value) : ", ";
   return `
     <tr>
       <td style="padding:12px 0;border-top:1px solid ${C.border};font-family:${C.mono};font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:${C.muted};white-space:nowrap;vertical-align:top;width:38%;">${esc(label)}</td>
@@ -48,7 +48,7 @@ export function renderContactEmail(data: ContactInput) {
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
 <body style="margin:0;padding:0;background:${C.bg};">
-  <div style="display:none;max-height:0;overflow:hidden;">New project brief from ${esc(data.name)} — ${esc(data.email)}</div>
+  <div style="display:none;max-height:0;overflow:hidden;">New project brief from ${esc(data.name)}, ${esc(data.email)}</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg};padding:32px 16px;">
     <tr><td align="center">
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
@@ -75,12 +75,12 @@ export function renderContactEmail(data: ContactInput) {
 
           <!-- message -->
           <div style="font-family:${C.mono};font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:${C.muted};margin-top:28px;">Project description</div>
-          <div style="font-family:${C.sans};font-size:15px;line-height:1.65;color:${C.ink};background:${C.accentWeak};border-left:3px solid ${C.accent};border-radius:6px;padding:16px 18px;margin-top:10px;white-space:pre-wrap;">${esc(data.message)}</div>
+          <div style="font-family:${C.sans};font-size:15px;line-height:1.65;color:${C.ink};background:${C.accentWeak};border-top:1px solid ${C.accent};border-radius:6px;padding:16px 18px;margin-top:10px;white-space:pre-wrap;">${esc(data.message)}</div>
 
           <!-- reply cta -->
           <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:28px;">
             <tr><td style="background:${C.accent};border-radius:9999px;">
-              <a href="mailto:${esc(data.email)}?subject=Re:%20your%20project%20brief" style="display:inline-block;padding:12px 24px;font-family:${C.sans};font-size:14px;font-weight:500;color:#f8f9f8;text-decoration:none;">Reply to ${esc(data.name.split(" ")[0] || "sender")} →</a>
+              <a href="mailto:${esc(data.email)}?subject=Re:%20your%20project%20brief" style="display:inline-block;padding:12px 24px;font-family:${C.sans};font-size:14px;font-weight:500;color:#f7f4ee;text-decoration:none;">Reply to ${esc(data.name.split(" ")[0] || "sender")} →</a>
             </td></tr>
           </table>
 
@@ -98,14 +98,14 @@ export function renderContactEmail(data: ContactInput) {
 </html>`;
 
   const text = [
-    `NEW PROJECT BRIEF — snowbros.me`,
+    `NEW PROJECT BRIEF, snowbros.me`,
     ``,
     `Name: ${data.name}`,
     `Email: ${data.email}`,
-    `Company: ${data.company || "—"}`,
-    `Project type: ${data.projectType || "—"}`,
-    `Budget: ${data.budget || "—"}`,
-    `Timeline: ${data.timeline || "—"}`,
+    `Company: ${data.company || ", "}`,
+    `Project type: ${data.projectType || ", "}`,
+    `Budget: ${data.budget || ", "}`,
+    `Timeline: ${data.timeline || ", "}`,
     ``,
     `Description:`,
     data.message,
@@ -113,5 +113,5 @@ export function renderContactEmail(data: ContactInput) {
     `Submitted: ${when}`,
   ].join("\n");
 
-  return { html, text, subject: `New project brief — ${data.name}` };
+  return { html, text, subject: `New project brief, ${data.name}` };
 }

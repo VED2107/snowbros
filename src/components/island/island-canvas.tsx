@@ -7,7 +7,7 @@ import { IslandModel } from "./island-model";
 import { Snow } from "./snow";
 
 /**
- * WebGL scene for the signature island. Scroll progress (0–1 across the
+ * WebGL scene for the signature island. Scroll progress (0-1 across the
  * hero) is tracked on a ref and consumed inside the render loop, so React
  * never re-renders on scroll.
  */
@@ -38,7 +38,7 @@ export function IslandCanvas({ animate }: { animate: boolean }) {
       frameloop={animate ? "always" : "demand"}
       className="!absolute inset-0"
     >
-      {/* Cinematic monochrome lighting — cool key, neutral fill */}
+      {/* Cinematic monochrome lighting, cool key, neutral fill */}
       <ambientLight intensity={0.8} color="#e9ecf2" />
       <directionalLight
         position={[5, 8, 4]}

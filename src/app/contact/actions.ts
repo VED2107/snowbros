@@ -11,7 +11,7 @@ export async function submitContact(
     return { ok: false, error: "Please check the form and try again." };
   }
 
-  // Honeypot tripped — pretend success, drop silently.
+  // Honeypot tripped, pretend success, drop silently.
   if (parsed.data.website) return { ok: true };
 
   const apiKey = process.env.RESEND_API_KEY;

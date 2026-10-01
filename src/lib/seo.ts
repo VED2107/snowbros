@@ -27,7 +27,7 @@ export function pageMetadata({
   // og:title/twitter:title aren't run through Next's title template, so the
   // brand suffix (visible in the <title> tag) is added explicitly here to
   // keep social previews consistent with the browser tab.
-  const socialTitle = `${title} — ${site.name}`;
+  const socialTitle = `${title} | ${site.name}`;
 
   return {
     title,

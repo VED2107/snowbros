@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MentorRouter } from "@/components/products/mentor-router";
 import Image from "next/image";
 import { pageMetadata } from "@/lib/seo";
 import { site, products } from "@/lib/site";
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Mentor",
     description:
-      "Snowbros Mentor — an engineering intelligence system for Claude Code. A capability orchestrator that composes only the specialist expertise a task needs (software, backend, frontend, architecture, security, design, AI, DevOps, leadership) in two modes: TEACH (train toward Principal-grade judgment from first principles) and BUILD (act as an autonomous Staff engineer). Honest by design — no fake token meters. MIT, open source.",
+      "Snowbros Mentor, an engineering intelligence system for Claude Code. A capability orchestrator that composes only the specialist expertise a task needs (software, backend, frontend, architecture, security, design, AI, DevOps, leadership) in two modes: TEACH (train toward Principal-grade judgment from first principles) and BUILD (act as an autonomous Staff engineer). Honest by design, no fake token meters. MIT, open source.",
     path: "/mentor",
   }),
   keywords: [
@@ -47,7 +48,7 @@ const modes: { icon: IconName; label: string; title: string; body: string; point
     icon: "layers",
     label: "TEACH",
     title: "Train toward elite judgment.",
-    body: "From first principles, not recipes. Full lessons with mental models, exercises, review gates, and a leveled roadmap from Foundations to Principal — verified by retrieval, not assertion.",
+    body: "From first principles, not recipes. Full lessons with mental models, exercises, review gates, and a leveled roadmap from Foundations to Principal, verified by retrieval, not assertion.",
     points: [
       "Why-it-matters → first principles → practice → anti-patterns",
       "Easy · medium · hard · real-world exercises, solutions withheld",
@@ -58,7 +59,7 @@ const modes: { icon: IconName; label: string; title: string; body: string; point
     icon: "bolt",
     label: "BUILD",
     title: "Act as an autonomous Staff engineer.",
-    body: "Classify the task, route to only the needed capabilities, produce the solution, then run only the review gates the change implicates — and say which ones and why.",
+    body: "Classify the task, route to only the needed capabilities, produce the solution, then run only the review gates the change implicates, and say which ones and why.",
     points: [
       "Complexity tiers bound how much gets read",
       "Code · security · architecture · design · AI review gates",
@@ -101,11 +102,11 @@ const routes: { task: string; pull: string; skip: string }[] = [
 ];
 
 const gates: { icon: IconName; title: string; body: string }[] = [
-  { icon: "devtools", title: "Code review", body: "Three-pass procedure, issues named and located, 1–10 category scores with honest calibration, then the Staff rewrite." },
-  { icon: "platform", title: "Design critique", body: "Seven lenses — heuristics, cognitive load, accessibility, feasibility, business impact, craft, competitive benchmarking." },
+  { icon: "devtools", title: "Code review", body: "Three-pass procedure, issues named and located, 1-10 category scores with honest calibration, then the Staff rewrite." },
+  { icon: "platform", title: "Design critique", body: "Seven lenses, heuristics, cognitive load, accessibility, feasibility, business impact, craft, competitive benchmarking." },
   { icon: "git-branch", title: "Architecture review", body: "Forces → alternatives → tradeoffs → failure modes → when-not-to-use, at the altitude of a real design review." },
   { icon: "check", title: "Security review", body: "A repeatable framework: trust boundaries → input → authz → secrets → dependencies → defense in depth." },
-  { icon: "cloud", title: "Operational readiness", body: "Deploy, rollback, observability, SLOs, capacity, failure, incident readiness — before a service ships." },
+  { icon: "cloud", title: "Operational readiness", body: "Deploy, rollback, observability, SLOs, capacity, failure, incident readiness, before a service ships." },
   { icon: "ai", title: "AI feature readiness", body: "Evals before features, grounding, injection defense, cost & latency budgets, agent guardrails." },
 ];
 
@@ -119,11 +120,11 @@ const stats = [
 const honest: { title: string; body: string }[] = [
   {
     title: "No fake token meter",
-    body: "A skill can't read its own remaining context. Instead of pretending, it classifies complexity up front to bound how much it reads — proactive, not imaginary.",
+    body: "A skill can't read its own remaining context. Instead of pretending, it classifies complexity up front to bound how much it reads, proactive, not imaginary.",
   },
   {
     title: "Checkpoints, not degraded answers",
-    body: "On long work it writes state and a continuation plan to disk so a fresh context resumes cleanly — rather than producing a worse answer to beat a limit.",
+    body: "On long work it writes state and a continuation plan to disk so a fresh context resumes cleanly, rather than producing a worse answer to beat a limit.",
   },
   {
     title: "Reuse over reinvention",
@@ -131,18 +132,18 @@ const honest: { title: string; body: string }[] = [
   },
   {
     title: "Merged, not fragmented",
-    body: "One capability equals one file. All of design is one reference, all of security is one — the registry is the router, and routing to the minimum is the token engine.",
+    body: "One capability equals one file. All of design is one reference, all of security is one, the registry is the router, and routing to the minimum is the token engine.",
   },
 ];
 
 const faqs = [
   {
     q: "What is it, exactly?",
-    a: "A skill for Claude Code — a folder of Markdown the assistant loads on request. It adds an orchestration layer that composes ten specialist engineering capabilities and runs the right review gates, in either a teaching or a building mode.",
+    a: "A skill for Claude Code, a folder of Markdown the assistant loads on request. It adds an orchestration layer that composes ten specialist engineering capabilities and runs the right review gates, in either a teaching or a building mode.",
   },
   {
     q: "Does it auto-run on every message?",
-    a: "No. It triggers only when you ask — \"/mentor\", \"teach me X\", or \"use mentor to build/review Z\". It produces structured lessons and reviews, so it stays out of the way of quick one-off questions.",
+    a: "No. It triggers only when you ask, \"/mentor\", \"teach me X\", or \"use mentor to build/review Z\". It produces structured lessons and reviews, so it stays out of the way of quick one-off questions.",
   },
   {
     q: "How does it save tokens?",
@@ -156,8 +157,9 @@ const faqs = [
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <Reveal>
-      <p className="eyebrow">{children}</p>
+    <Reveal className="plot">
+      <div className="plot-rule h-px w-full bg-ink" aria-hidden />
+      <p className="meta pt-3">{children}</p>
     </Reveal>
   );
 }
@@ -179,114 +181,61 @@ export default function MentorPage() {
         repo={repo}
       />
 
-      {/* Hero */}
-      <Section className="pb-0 pt-32 md:pt-40">
-        <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:items-center">
-          <div>
-            <Reveal>
-              <div className="flex items-center gap-3">
-                <Image src={mentor.logo} alt="" width={40} height={40} unoptimized className="h-10 w-10" />
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
-                  <span className="status-dot scale-[0.6]" /> A SNOWBROS product · {mentor.status}
-                </span>
-              </div>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h1 className="mt-7 text-[length:var(--text-4xl)] font-normal leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)]">
-                One task.
-                <br />
-                Only the right experts.
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-secondary">
-                {mentor.fullName} is an engineering intelligence system for
-                Claude Code. Like a senior engineering manager, it reads a task
-                and pulls in only the specialists it{" "}
-                <span className="text-ink">needs</span> — then either{" "}
-                <span className="text-ink">teaches</span> it or{" "}
-                <span className="text-ink">builds</span> it, running the reviews
-                that actually apply.
-              </p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Button href={repo} variant="primary">
-                  <Icon name="github" className="text-[18px]" />
-                  View on GitHub
-                </Button>
-                <Button href={orchestration} variant="secondary">
+      {/* Hero: the router, operable */}
+      <section aria-labelledby="mentor-title" className="border-b border-ink">
+        <div className="mx-auto grid max-w-[1240px] gap-12 px-[var(--spacing-gutter)] pb-16 pt-10 md:pb-24 md:pt-16 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
+            <nav aria-label="Breadcrumb" className="meta enter">
+              <a href="/products" className="hover:text-ink">Products</a>
+              <span aria-hidden> / </span>
+              <span className="text-ink">{mentor.fullName}</span>
+            </nav>
+            <h1
+              id="mentor-title"
+              className="enter mt-6 text-[clamp(2.5rem,1.5rem+3.4vw,4.25rem)] font-medium leading-[1] tracking-[-0.04em] text-ink"
+              style={{ "--enter-delay": "60ms" } as React.CSSProperties}
+            >
+              One task.
+              <br />
+              Only the experts it needs<span className="text-accent">.</span>
+            </h1>
+            <p
+              className="enter mt-7 max-w-[44ch] text-[length:var(--text-lg)] leading-[1.6] text-secondary"
+              style={{ "--enter-delay": "140ms" } as React.CSSProperties}
+            >
+              A skill for Claude Code that reads a task, routes it to the few
+              engineering disciplines it involves, then teaches it or builds it
+              and runs only the reviews that apply.
+            </p>
+            <div className="enter mt-8 flex flex-col items-start gap-4" style={{ "--enter-delay": "220ms" } as React.CSSProperties}>
+              <code className="rounded-[var(--radius-md)] border border-ink bg-ink px-4 py-3 font-mono text-[13px] text-background">
+                <span className="text-accent">$ </span>/mentor teach me caching
+              </code>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Button href={repo}>Source on GitHub</Button>
+                <Button href={orchestration} variant="text">
                   Read the engine
-                  <Icon name="arrow-right" className="text-[16px]" />
                 </Button>
-                <code className="rounded-full border border-hairline bg-surface px-4 py-2 font-mono text-[13px] text-secondary">
-                  /mentor teach me caching
-                </code>
-              </div>
-            </Reveal>
-            <RevealGroup className="mt-8 flex flex-wrap gap-2">
-              {mentor.tags.map((t) => (
-                <Reveal
-                  as="span"
-                  key={t}
-                  className="rounded-md border border-hairline bg-surface px-2.5 py-1.5 font-mono text-[11px] text-secondary"
-                >
-                  {t}
-                </Reveal>
-              ))}
-            </RevealGroup>
-            <Reveal delay={0.2}>
-              <p className="mt-6 font-mono text-[11px] text-muted">
-                10 capabilities · 12 references · 2 modes · MIT
-              </p>
-            </Reveal>
-          </div>
-
-          {/* Routing visual — built, not an asset */}
-          <Reveal delay={0.1}>
-            <div className="card-engineered overflow-hidden p-6 md:p-7">
-              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-                Router · example
-              </p>
-              <div className="mt-4 inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-2 font-mono text-[13px] text-ink">
-                <Icon name="arrow-right" className="text-[14px] text-accent" />
-                &ldquo;Build a login page&rdquo;
-              </div>
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-accent">
-                Pulled
-              </p>
-              <div className="mt-3 flex flex-col gap-2">
-                {["Product Design", "Frontend Engineering", "Accessibility", "Security · authentication"].map((c) => (
-                  <span
-                    key={c}
-                    className="inline-flex items-center gap-2 rounded-md border border-hairline bg-accent-weak/60 px-3 py-2 font-mono text-[12px] text-ink"
-                  >
-                    <Icon name="check" className="text-[13px] text-accent" />
-                    {c}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-                Skipped
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {["Cloud Security", "Kubernetes", "Database Scaling", "AI Engineering"].map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-md border border-hairline bg-surface px-3 py-1.5 font-mono text-[12px] text-muted line-through decoration-hairline"
-                  >
-                    {c}
-                  </span>
-                ))}
               </div>
             </div>
-          </Reveal>
+            <dl className="enter mt-10 grid grid-cols-4 border-t border-ink" style={{ "--enter-delay": "300ms" } as React.CSSProperties}>
+              {stats.map((s) => (
+                <div key={s.label} className="py-3 pr-3">
+                  <dt className="meta">{s.label}</dt>
+                  <dd className="mt-1 font-mono text-[14px] text-ink">{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="enter lg:col-span-7" style={{ "--enter-delay": "180ms" } as React.CSSProperties}>
+            <MentorRouter />
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Two modes */}
       <Section>
-        <Eyebrow>// two modes</Eyebrow>
+        <Eyebrow>two modes</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             The same experts can teach it, or build it.
@@ -297,9 +246,6 @@ export default function MentorPage() {
             <Reveal as="div" key={m.label}>
               <div className="card-engineered h-full p-8">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] border border-hairline bg-accent-weak text-accent">
-                    <Icon name={m.icon} className="text-[20px]" />
-                  </span>
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
                     {m.label}
                   </span>
@@ -326,7 +272,7 @@ export default function MentorPage() {
 
       {/* Capabilities */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// ten capabilities</Eyebrow>
+        <Eyebrow>ten capabilities</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Merged, not fragmented. One capability, one file.
@@ -335,11 +281,8 @@ export default function MentorPage() {
         <RevealGroup className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((c) => (
             <Reveal as="div" key={c.title}>
-              <div className="card-engineered h-full p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] border border-hairline bg-accent-weak text-accent">
-                  <Icon name={c.icon} className="text-[20px]" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold tracking-[-0.01em]">
+              <div className="h-full border-t border-ink pt-5">
+                <h3 className="text-[17px] font-medium tracking-[-0.015em]">
                   {c.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-secondary">
@@ -353,7 +296,7 @@ export default function MentorPage() {
 
       {/* How orchestration works */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// how it works</Eyebrow>
+        <Eyebrow>how it works</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Decide what to read before reading it.
@@ -374,7 +317,7 @@ export default function MentorPage() {
         </RevealGroup>
         <Reveal delay={0.1}>
           <p className="mt-8 max-w-2xl text-sm leading-relaxed text-secondary">
-            Progressive disclosure is the token engine — unopened references cost
+            Progressive disclosure is the token engine, unopened references cost
             nothing, so correct routing is the optimization.{" "}
             <a href={orchestration} className="text-accent">
               Read the orchestration engine →
@@ -385,7 +328,7 @@ export default function MentorPage() {
 
       {/* Routing examples */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// routing</Eyebrow>
+        <Eyebrow>routing</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             It never invokes every capability.
@@ -415,7 +358,7 @@ export default function MentorPage() {
 
       {/* Review gates */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// review gates</Eyebrow>
+        <Eyebrow>review gates</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Only the reviews the change implicates.
@@ -424,11 +367,8 @@ export default function MentorPage() {
         <RevealGroup className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {gates.map((g) => (
             <Reveal as="div" key={g.title}>
-              <div className="card-engineered h-full p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] border border-hairline bg-accent-weak text-accent">
-                  <Icon name={g.icon} className="text-[20px]" />
-                </span>
-                <h3 className="mt-5 text-base font-semibold tracking-[-0.01em]">
+              <div className="h-full border-t border-ink pt-5">
+                <h3 className="text-[17px] font-medium tracking-[-0.015em]">
                   {g.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-secondary">
@@ -442,10 +382,10 @@ export default function MentorPage() {
 
       {/* Honest by design */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// honest by design</Eyebrow>
+        <Eyebrow>honest by design</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
-            It does what a skill really can — and refuses to fake the rest.
+            It does what a skill really can, and refuses to fake the rest.
           </h2>
         </Reveal>
         <RevealGroup className="mt-14 grid gap-5 md:grid-cols-2">
@@ -460,7 +400,7 @@ export default function MentorPage() {
 
       {/* Install */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// install</Eyebrow>
+        <Eyebrow>install</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Clone it into your skills folder. Then just ask.
@@ -469,7 +409,7 @@ export default function MentorPage() {
         <RevealGroup className="mt-14 grid gap-4 md:grid-cols-2">
           <Reveal as="div" className="card-engineered p-5">
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-              Global — all projects
+              Global, all projects
             </p>
             <pre className="mt-3 overflow-x-auto rounded-[var(--radius-md)] border border-hairline bg-background p-4 font-mono text-[13px] leading-relaxed text-ink">
               <code>git clone https://github.com/snowbros-labs/mentor-skill.git ~/.claude/skills/mentor</code>
@@ -497,7 +437,7 @@ export default function MentorPage() {
 
       {/* Stats */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// at a glance</Eyebrow>
+        <Eyebrow>at a glance</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Open source, and small on purpose.
@@ -519,7 +459,7 @@ export default function MentorPage() {
 
       {/* FAQ */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// faq</Eyebrow>
+        <Eyebrow>faq</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Questions, answered.
@@ -541,7 +481,7 @@ export default function MentorPage() {
         </RevealGroup>
       </Section>
 
-      {/* GitHub CTA — forest panel */}
+      {/* GitHub CTA, forest panel */}
       <Section className="border-t border-hairline">
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-[var(--radius-xl)] bg-primary px-8 py-20 text-center text-primary-foreground md:px-16">
@@ -549,28 +489,28 @@ export default function MentorPage() {
               aria-hidden
               className="pointer-events-none absolute inset-0 -z-10 opacity-[0.13] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)] [background-size:52px_52px] [mask-image:radial-gradient(120%_100%_at_50%_0%,#000,transparent_70%)]"
             />
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#8fd8c0]">
-              // open source · MIT
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#e8936c]">
+              Open source, MIT
             </p>
-            <h2 className="mx-auto mt-5 max-w-2xl text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-[#f8f9f8]">
+            <h2 className="mx-auto mt-5 max-w-2xl text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-[#f7f4ee]">
               A Staff engineer and a whole curriculum, in one skill.
             </h2>
-            <p className="mx-auto mt-6 max-w-lg text-lg text-[#c3d0ca]">
-              Clone it, read it, and put it to work — then tell us where it&rsquo;s
+            <p className="mx-auto mt-6 max-w-lg text-lg text-[#b9b3a7]">
+              Clone it, read it, and put it to work, then tell us where it&rsquo;s
               wrong.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Button
                 href={repo}
                 size="lg"
-                className="bg-[#f8f9f8] text-primary hover:bg-white hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
+                className="bg-[#f7f4ee] text-primary hover:bg-white hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
               >
                 <Icon name="github" className="text-[18px]" />
                 Star on GitHub
               </Button>
               <a
                 href={readme}
-                className="inline-flex h-14 items-center px-6 text-base text-[#c3d0ca] transition-colors hover:text-white"
+                className="inline-flex h-14 items-center px-6 text-base text-[#b9b3a7] transition-colors hover:text-white"
               >
                 Read the docs
               </a>

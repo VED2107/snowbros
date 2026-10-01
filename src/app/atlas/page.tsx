@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AtlasProof, CopyCommand } from "@/components/products/atlas-proof";
 import Image from "next/image";
 import { pageMetadata } from "@/lib/seo";
 import { site, products } from "@/lib/site";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Atlas",
     description:
-      "Snowbros Atlas — deterministic engineering intelligence for JavaScript, TypeScript, React, Next.js, and now Python. One shared semantic IR and rule engine across languages: circular imports, dead files, Next.js server/client leaks, React hook misuse, unused deps, secrets, and cross-language complexity. 23 rules, native Rust, LSP + VS Code, evidence for every finding.",
+      "Snowbros Atlas, deterministic engineering intelligence for JavaScript, TypeScript, React, Next.js, and now Python. One shared semantic IR and rule engine across languages: circular imports, dead files, Next.js server/client leaks, React hook misuse, unused deps, secrets, and cross-language complexity. 23 rules, native Rust, LSP + VS Code, evidence for every finding.",
     path: "/atlas",
     images: [`${site.url}/atlas/og-image.png`],
   }),
@@ -51,7 +52,7 @@ const features: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "check",
     title: "Deterministic by construction",
-    body: "No AI, no timestamps, no network. Same code and config in, same findings out — the warm-cache run is byte-identical to a cold one, enforced by tests.",
+    body: "No AI, no timestamps, no network. Same code and config in, same findings out, the warm-cache run is byte-identical to a cold one, enforced by tests.",
   },
   {
     icon: "bolt",
@@ -61,17 +62,17 @@ const features: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "git-branch",
     title: "Evidence, not vibes",
-    body: "Every finding carries the chain that produced it and a confidence level. Anything the resolver can't prove is labeled unresolved — never guessed.",
+    body: "Every finding carries the chain that produced it and a confidence level. Anything the resolver can't prove is labeled unresolved, never guessed.",
   },
   {
     icon: "layers",
     title: "Whole-project graph",
-    body: "Symbol, import, and file graphs with cycle detection and dead-file reachability — plus a Next.js project model and a React semantic model. The structural problems per-file linters can't see.",
+    body: "Symbol, import, and file graphs with cycle detection and dead-file reachability, plus a Next.js project model and a React semantic model. The structural problems per-file linters can't see.",
   },
   {
     icon: "devtools",
     title: "Meets you everywhere",
-    body: "Terminal, JSON, SARIF for GitHub code scanning, self-contained HTML, and Markdown — with a health scorecard, a built-in LSP, and a first-party VS Code extension.",
+    body: "Terminal, JSON, SARIF for GitHub code scanning, self-contained HTML, and Markdown, with a health scorecard, a built-in LSP, and a first-party VS Code extension.",
   },
   {
     icon: "gauge",
@@ -123,7 +124,7 @@ const reactCapabilities: { title: string; body: string }[] = [
   { title: "Component detection", body: "Function and arrow components resolved from the semantic model, not string matching." },
   { title: "Hook detection", body: "Built-in and custom hooks identified by call enclosure and naming predicate." },
   { title: "JSX analysis", body: "JSX and TSX parsed and understood as part of the component graph." },
-  { title: "Async client component rule", body: "Flags `async` components in client boundaries — a real runtime hazard." },
+  { title: "Async client component rule", body: "Flags `async` components in client boundaries, a real runtime hazard." },
   { title: "Hook misuse detection", body: "Catches hooks called outside a component or hook, against the rules of hooks." },
   { title: "Component naming", body: "Enforces PascalCase component and use-prefixed hook naming conventions." },
 ];
@@ -161,7 +162,7 @@ const comparison: {
 
 const installs = [
   { label: "npm (global)", code: "npm install -g @snowbros/atlas" },
-  { label: "npm — no install needed", code: "npx snowbros analyze" },
+  { label: "npm, no install needed", code: "npx snowbros analyze" },
   { label: "Homebrew (macOS, Linux)", code: "brew install snowbros-labs/tap/snowbros-atlas" },
   { label: "Cargo", code: "cargo install snowbros-atlas --locked" },
 ];
@@ -190,7 +191,7 @@ const roadmap = [
 const faqs = [
   {
     q: "Is it a linter? Do I replace ESLint or Biome?",
-    a: "No. Atlas works one layer up, on whole-project structure — the import graph, framework boundaries, and manifest. Run it alongside your linter, not instead of it.",
+    a: "No. Atlas works one layer up, on whole-project structure, the import graph, framework boundaries, and manifest. Run it alongside your linter, not instead of it.",
   },
   {
     q: "Does it use AI?",
@@ -198,7 +199,7 @@ const faqs = [
   },
   {
     q: "Which languages are supported?",
-    a: "The JavaScript/TypeScript family (.js/.jsx/.ts/.tsx and their .mjs/.cjs variants) and Python (.py). Both lower into one shared semantic IR, so language-neutral rules — import cycles, dead files, unresolved imports, and function complexity — run on either without special-casing. Python ships at preview maturity; Go, Rust, and Java are next on the roadmap.",
+    a: "The JavaScript/TypeScript family (.js/.jsx/.ts/.tsx and their .mjs/.cjs variants) and Python (.py). Both lower into one shared semantic IR, so language-neutral rules, import cycles, dead files, unresolved imports, and function complexity, run on either without special-casing. Python ships at preview maturity; Go, Rust, and Java are next on the roadmap.",
   },
   {
     q: "Will it slow down or break my CI?",
@@ -206,10 +207,12 @@ const faqs = [
   },
 ];
 
+/* Section marker: the plotter rule with a mono label, same as every sheet. */
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <Reveal>
-      <p className="eyebrow">{children}</p>
+    <Reveal className="plot">
+      <div className="plot-rule h-px w-full bg-ink" aria-hidden />
+      <p className="meta pt-3">{children}</p>
     </Reveal>
   );
 }
@@ -232,89 +235,64 @@ export default function AtlasPage() {
         image={`${site.url}/atlas/og-image.png`}
       />
 
-      {/* Hero */}
-      <Section className="pb-0 pt-32 md:pt-40">
-        <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:items-center">
-          <div>
-            <Reveal>
-              <div className="flex items-center gap-3">
-                <Image src={atlas.logo} alt="" width={40} height={40} unoptimized className="h-10 w-10" />
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
-                  <span className="status-dot scale-[0.6]" /> A SNOWBROS product · {atlas.status}
-                </span>
-              </div>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h1 className="mt-7 text-[length:var(--text-4xl)] font-normal leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)]">
-                Same code in.
-                <br />
-                Same findings out.
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-secondary">
-                {atlas.fullName} maps your whole JavaScript, TypeScript, React,
-                Next.js — and now Python — project and reports problems it can{" "}
-                <span className="text-ink">prove</span> — circular imports, dead
-                files, Next.js server/client leaks, React hook misuse, unused
-                dependencies, secrets, oversized functions. One semantic engine
-                across languages, native Rust, with the evidence attached.
-              </p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Button href={repo} variant="primary">
-                  <Icon name="github" className="text-[18px]" />
-                  View on GitHub
+      {/* Hero: the proof, operable */}
+      <section aria-labelledby="atlas-title" className="border-b border-ink">
+        <div className="mx-auto grid max-w-[1240px] gap-12 px-[var(--spacing-gutter)] pb-16 pt-10 md:pb-24 md:pt-16 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-6">
+            <nav aria-label="Breadcrumb" className="meta enter">
+              <a href="/products" className="hover:text-ink">Products</a>
+              <span aria-hidden> / </span>
+              <span className="text-ink">{atlas.fullName}</span>
+            </nav>
+            <h1
+              id="atlas-title"
+              className="enter mt-6 text-[clamp(2.5rem,1.5rem+3.4vw,4.25rem)] font-medium leading-[1] tracking-[-0.04em] text-ink"
+              style={{ "--enter-delay": "60ms" } as React.CSSProperties}
+            >
+              Same code in.
+              <br />
+              Same findings out<span className="text-accent">.</span>
+            </h1>
+            <p
+              className="enter mt-7 max-w-[46ch] text-[length:var(--text-lg)] leading-[1.6] text-secondary"
+              style={{ "--enter-delay": "140ms" } as React.CSSProperties}
+            >
+              Static analysis that maps your whole JavaScript, TypeScript or
+              Python project and reports only what it can prove, with the chain
+              of evidence attached. Native Rust. No model decides.
+            </p>
+            <div className="enter mt-8 flex flex-col items-start gap-4" style={{ "--enter-delay": "220ms" } as React.CSSProperties}>
+              <CopyCommand command="npx snowbros analyze" />
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Button href={repo}>Source on GitHub</Button>
+                <Button href={`${docs}/docs/INSTALL.md`} variant="text">
+                  Install guide
                 </Button>
-                <Button href={`${docs}/docs/INSTALL.md`} variant="secondary">
-                  Read the docs
-                  <Icon name="arrow-right" className="text-[16px]" />
-                </Button>
-                <code className="rounded-full border border-hairline bg-surface px-4 py-2 font-mono text-[13px] text-secondary">
-                  npx snowbros analyze
-                </code>
               </div>
-            </Reveal>
-            <RevealGroup className="mt-8 flex flex-wrap gap-2">
-              {atlas.tags.map((t) => (
-                <Reveal
-                  as="span"
-                  key={t}
-                  className="rounded-md border border-hairline bg-surface px-2.5 py-1.5 font-mono text-[11px] text-secondary"
-                >
-                  {t}
-                </Reveal>
-              ))}
-            </RevealGroup>
-            <Reveal delay={0.2}>
-              <p className="mt-6 font-mono text-[11px] text-muted">
-                CLI v0.4.0 · VS Code extension v0.3.0 · 23 rules · JS/TS +
-                Python
-              </p>
-            </Reveal>
-          </div>
-
-          {/* Terminal demo — real captured output */}
-          <Reveal delay={0.1}>
-            <div className="card-engineered overflow-hidden p-3 md:p-4">
-              <Image
-                src="/atlas/terminal.svg"
-                alt="sb analyze finds a server-only leak, a circular import, and a hardcoded secret — health 93 of 100"
-                width={900}
-                height={560}
-                priority
-                unoptimized
-                className="h-auto w-full rounded-[var(--radius-md)]"
-              />
             </div>
-          </Reveal>
+            <dl className="enter mt-10 grid grid-cols-2 border-t border-ink sm:grid-cols-4" style={{ "--enter-delay": "300ms" } as React.CSSProperties}>
+              {[
+                ["CLI", "v0.4.0"],
+                ["VS Code", "v0.3.0"],
+                ["Rules", "23"],
+                ["Languages", "JS, TS, Python"],
+              ].map(([k, v]) => (
+                <div key={k} className="border-b border-hairline-strong py-3 pr-3 sm:border-b-0">
+                  <dt className="meta">{k}</dt>
+                  <dd className="mt-1 font-mono text-[14px] text-ink">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="enter lg:col-span-6" style={{ "--enter-delay": "180ms" } as React.CSSProperties}>
+            <AtlasProof />
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Features */}
       <Section>
-        <Eyebrow>// why atlas</Eyebrow>
+        <Eyebrow>why atlas</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Per-file linters can&rsquo;t see project structure. Atlas can.
@@ -323,11 +301,8 @@ export default function AtlasPage() {
         <RevealGroup className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
             <Reveal as="div" key={f.title}>
-              <div className="card-engineered h-full p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] border border-hairline bg-accent-weak text-accent">
-                  <Icon name={f.icon} className="text-[20px]" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold tracking-[-0.01em]">
+              <div className="h-full border-t border-ink pt-5">
+                <h3 className="text-[17px] font-medium tracking-[-0.015em]">
                   {f.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-secondary">
@@ -341,7 +316,7 @@ export default function AtlasPage() {
 
       {/* Architecture / pipeline */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// how it works</Eyebrow>
+        <Eyebrow>how it works</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             One deterministic pipeline, cache-accelerated.
@@ -362,7 +337,7 @@ export default function AtlasPage() {
         </RevealGroup>
         <Reveal delay={0.1}>
           <p className="mt-8 max-w-2xl text-sm leading-relaxed text-secondary">
-            Warm output is byte-identical to a cold run — the cache can skip work,
+            Warm output is byte-identical to a cold run, the cache can skip work,
             never change results.{" "}
             <a href={`${docs}/ARCHITECTURE.md`} className="text-accent">
               Read the architecture →
@@ -373,7 +348,7 @@ export default function AtlasPage() {
 
       {/* Languages & Frameworks */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// multi-language</Eyebrow>
+        <Eyebrow>multi-language</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             One engine. Multiple languages.
@@ -382,7 +357,7 @@ export default function AtlasPage() {
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-secondary">
             Every language lowers into one shared semantic IR, so a rule is
-            written once and runs everywhere it applies — never a{" "}
+            written once and runs everywhere it applies, never a{" "}
             <code className="font-mono text-[13px] text-ink">
               if language ==
             </code>{" "}
@@ -435,7 +410,7 @@ export default function AtlasPage() {
 
       {/* Next.js intelligence */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// next.js intelligence</Eyebrow>
+        <Eyebrow>next.js intelligence</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             It understands the Next.js project model.
@@ -443,7 +418,7 @@ export default function AtlasPage() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-secondary">
-            App Router, Pages Router, and mixed setups — with the routing
+            App Router, Pages Router, and mixed setups, with the routing
             conventions, special files, and server/client boundaries resolved
             into a real model, not guessed by filename.
           </p>
@@ -463,7 +438,7 @@ export default function AtlasPage() {
 
       {/* React */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// react semantic model</Eyebrow>
+        <Eyebrow>react semantic model</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             A semantic model for React (M1).
@@ -472,11 +447,8 @@ export default function AtlasPage() {
         <RevealGroup className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {reactCapabilities.map((c) => (
             <Reveal as="div" key={c.title}>
-              <div className="card-engineered h-full p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] border border-hairline bg-accent-weak text-accent">
-                  <Icon name="git-branch" className="text-[20px]" />
-                </span>
-                <h3 className="mt-5 text-base font-semibold tracking-[-0.01em]">
+              <div className="h-full border-t border-ink pt-5">
+                <h3 className="text-[17px] font-medium tracking-[-0.015em]">
                   {c.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-secondary">
@@ -490,7 +462,7 @@ export default function AtlasPage() {
 
       {/* Comparison */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// how it compares</Eyebrow>
+        <Eyebrow>how it compares</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Run it alongside your linter, not instead of it.
@@ -528,7 +500,7 @@ export default function AtlasPage() {
 
       {/* Installation */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// install</Eyebrow>
+        <Eyebrow>install</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             One line to try it. No account, no config.
@@ -552,7 +524,7 @@ export default function AtlasPage() {
       <Section className="border-t border-hairline">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <Eyebrow>// in your editor</Eyebrow>
+            <Eyebrow>in your editor</Eyebrow>
             <Reveal delay={0.05}>
               <h2 className="mt-5 max-w-md text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
                 First-class VS Code support.
@@ -562,7 +534,7 @@ export default function AtlasPage() {
               <p className="mt-6 max-w-md text-[15px] leading-relaxed text-secondary">
                 Published on the VS Code Marketplace (v0.3.0). The extension
                 wraps the built-in language server, so findings stream into
-                native diagnostics in real time as you save — severities mapped
+                native diagnostics in real time as you save, severities mapped
                 to Errors, Warnings, Hints, with click-to-navigate. Analyze,
                 explain a rule, open an HTML report, or check the health score
                 without leaving the editor.
@@ -575,11 +547,9 @@ export default function AtlasPage() {
                   variant="primary"
                 >
                   Get the extension
-                  <Icon name="arrow-up-right" className="text-[16px]" />
                 </Button>
                 <Button href={`${docs}/vscode/README.md`} variant="secondary">
                   Extension docs
-                  <Icon name="arrow-right" className="text-[16px]" />
                 </Button>
                 <Button href={`${docs}/docs/INSTALL.md`} variant="text">
                   Other editors (LSP)
@@ -591,7 +561,7 @@ export default function AtlasPage() {
             <div className="card-engineered overflow-hidden p-3 md:p-4">
               <Image
                 src="/atlas/report.png"
-                alt="Snowbros Atlas HTML report — a health scorecard and findings with evidence"
+                alt="Snowbros Atlas HTML report, a health scorecard and findings with evidence"
                 width={1000}
                 height={900}
                 unoptimized
@@ -605,7 +575,7 @@ export default function AtlasPage() {
 
       {/* Outputs */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// outputs</Eyebrow>
+        <Eyebrow>outputs</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             One analysis, every format you need.
@@ -625,7 +595,7 @@ export default function AtlasPage() {
 
       {/* Performance */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// performance</Eyebrow>
+        <Eyebrow>performance</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Fast enough to run on every save.
@@ -650,7 +620,7 @@ export default function AtlasPage() {
 
       {/* Roadmap */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// roadmap</Eyebrow>
+        <Eyebrow>roadmap</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Where Atlas is going.
@@ -684,7 +654,7 @@ export default function AtlasPage() {
 
       {/* FAQ */}
       <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>// faq</Eyebrow>
+        <Eyebrow>faq</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Questions, answered.
@@ -715,7 +685,7 @@ export default function AtlasPage() {
 
       {/* Release status */}
       <Section className="border-t border-hairline">
-        <Eyebrow>// release status</Eyebrow>
+        <Eyebrow>release status</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
             Production-ready, and shipping.
@@ -751,7 +721,7 @@ export default function AtlasPage() {
         </Reveal>
       </Section>
 
-      {/* GitHub CTA — forest panel */}
+      {/* GitHub CTA, forest panel */}
       <Section className="border-t border-hairline">
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-[var(--radius-xl)] bg-primary px-8 py-20 text-center text-primary-foreground md:px-16">
@@ -759,28 +729,28 @@ export default function AtlasPage() {
               aria-hidden
               className="pointer-events-none absolute inset-0 -z-10 opacity-[0.13] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)] [background-size:52px_52px] [mask-image:radial-gradient(120%_100%_at_50%_0%,#000,transparent_70%)]"
             />
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#8fd8c0]">
-              // open source · MIT or Apache-2.0
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#e8936c]">
+              Open source, MIT or Apache-2.0
             </p>
-            <h2 className="mx-auto mt-5 max-w-2xl text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-[#f8f9f8]">
+            <h2 className="mx-auto mt-5 max-w-2xl text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-[#f7f4ee]">
               Map your project in one command.
             </h2>
-            <p className="mx-auto mt-6 max-w-lg text-lg text-[#c3d0ca]">
-              Try it on your repo right now — then star it, break it, and tell us
+            <p className="mx-auto mt-6 max-w-lg text-lg text-[#b9b3a7]">
+              Try it on your repo right now, then star it, break it, and tell us
               where it&rsquo;s wrong.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Button
                 href={repo}
                 size="lg"
-                className="bg-[#f8f9f8] text-primary hover:bg-white hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
+                className="bg-[#f7f4ee] text-primary hover:bg-white hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
               >
                 <Icon name="github" className="text-[18px]" />
                 Star on GitHub
               </Button>
               <a
                 href={`${docs}/docs/EXAMPLES.md`}
-                className="inline-flex h-14 items-center px-6 text-base text-[#c3d0ca] transition-colors hover:text-white"
+                className="inline-flex h-14 items-center px-6 text-base text-[#b9b3a7] transition-colors hover:text-white"
               >
                 See real-world runs
               </a>

@@ -1,37 +1,33 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/sections/page-header";
-import { Section } from "@/components/layout/section";
-import { Card } from "@/components/ui/card";
-import { Reveal, RevealGroup } from "@/components/motion/reveal";
+import { RevealGroup } from "@/components/motion/reveal";
 
 export const metadata: Metadata = pageMetadata({
   title: "Labs",
   description:
-    "Experiments, prototypes, and research from SNOWBROS — where we explore ideas before they become products.",
+    "Unfinished work from SNOWBROS: prototypes and side projects, labelled honestly with where they stand.",
   path: "/labs",
 });
 
 const experiments = [
   {
-    title: "Grounded retrieval sandbox",
-    status: "Ongoing",
-    body: "A test bed for measuring citation accuracy across retrieval strategies under adversarial questions.",
+    title: "Snow island",
+    status: "Prototype, not shipped",
+    body: "A low-poly engineering island in React Three Fiber, explored as a visual identity for this site. The live site leads with product screenshots instead; the prototype stays in the repository.",
+    stack: "React Three Fiber, Drei, Three.js",
   },
   {
-    title: "Edge-rendered 3D",
-    status: "Prototype",
-    body: "Streaming low-poly scenes with progressive enhancement so the story survives even without WebGL.",
+    title: "filmica",
+    status: "Side project",
+    body: "A cross-platform film companion app.",
+    stack: "Flutter, Dart",
   },
   {
-    title: "Zero-config observability",
-    status: "Research",
-    body: "What would it take for a new service to emit useful traces, metrics, and logs on its first deploy?",
-  },
-  {
-    title: "Deterministic build caches",
-    status: "Ongoing",
-    body: "Chasing reproducible builds where the same input always yields a byte-identical artifact.",
+    title: "guesser",
+    status: "Experiment",
+    body: "A small guessing game.",
+    stack: "TypeScript",
   },
 ];
 
@@ -39,33 +35,28 @@ export default function LabsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Labs"
-        title="Where we think out loud."
-        lead="Rough by design. These are experiments we run to learn — some become products, most become better instincts."
+        title="Work that is not finished, labelled as such."
+        lead="Prototypes and side projects, with an honest note on where each one stands."
         breadcrumbs={[
           { name: "Home", href: "/" },
           { name: "Labs", href: "/labs" },
         ]}
       />
 
-      <Section>
-        <RevealGroup className="grid gap-6 md:grid-cols-2">
+      <div className="mx-auto max-w-[1240px] px-[var(--spacing-gutter)] py-16 md:py-24">
+        <RevealGroup as="ul" className="grid gap-x-8 md:grid-cols-2">
           {experiments.map((e) => (
-            <Reveal as="div" key={e.title}>
-              <Card className="h-full">
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-muted">{e.status}</span>
-                </div>
-                <h2 className="mt-5 text-xl font-medium">{e.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-secondary">
-                  {e.body}
-                </p>
-              </Card>
-            </Reveal>
+            <li key={e.title} className="border-t border-ink py-7 md:pr-6">
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 className="text-[length:var(--text-2xl)] leading-tight tracking-[-0.03em] text-ink">{e.title}</h2>
+                <span className="meta shrink-0">{e.status}</span>
+              </div>
+              <p className="mt-3 max-w-[56ch] text-[15px] leading-relaxed text-secondary">{e.body}</p>
+              <p className="meta mt-4">{e.stack}</p>
+            </li>
           ))}
         </RevealGroup>
-      </Section>
+      </div>
     </>
   );
 }

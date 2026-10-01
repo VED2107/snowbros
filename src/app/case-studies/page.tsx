@@ -5,12 +5,12 @@ import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
-import { projects } from "@/lib/content";
+import { projects, projectHref } from "@/lib/content";
 
 export const metadata: Metadata = pageMetadata({
   title: "Case Studies",
   description:
-    "In-depth accounts of how SNOWBROS approached hard engineering problems — the constraints, the decisions, and the outcomes.",
+    "In-depth accounts of how SNOWBROS approached hard engineering problems, the constraints, the decisions, and the outcomes.",
   path: "/case-studies",
 });
 
@@ -20,7 +20,7 @@ export default function CaseStudiesPage() {
       <PageHeader
         eyebrow="Case studies"
         title="The reasoning behind the work."
-        lead="Not highlight reels — honest accounts of the constraints we worked within and the trade-offs we chose."
+        lead="Not highlight reels, honest accounts of the constraints we worked within and the trade-offs we chose."
         breadcrumbs={[
           { name: "Home", href: "/" },
           { name: "Case Studies", href: "/case-studies" },
@@ -31,9 +31,9 @@ export default function CaseStudiesPage() {
         <RevealGroup className="grid gap-6 md:grid-cols-2">
           {projects.map((project) => (
             <Reveal as="div" key={project.slug}>
-              <Card href={`/work/${project.slug}`} noArrow className="h-full">
+              <Card href={projectHref(project)} noArrow className="h-full">
                 <p className="text-xs text-muted">
-                  {project.category} · {project.year}
+                  {project.category} / {project.year}
                 </p>
                 <h2 className="mt-4 text-xl font-medium leading-tight">
                   {project.title}

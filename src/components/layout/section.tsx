@@ -6,7 +6,7 @@ type SectionProps = React.HTMLAttributes<HTMLElement> & {
   bleed?: boolean;
 };
 
-/** Vertical rhythm section. Every section breathes — generous, consistent padding. */
+/** Vertical rhythm section. Every section breathes, generous, consistent padding. */
 export function Section({
   className,
   children,
@@ -16,7 +16,7 @@ export function Section({
 }: SectionProps) {
   return (
     <section
-      className={cn("py-24 md:py-32 lg:py-40", className)}
+      className={cn("py-16 md:py-24", className)}
       {...props}
     >
       {bleed ? children : <Container size={containerSize}>{children}</Container>}

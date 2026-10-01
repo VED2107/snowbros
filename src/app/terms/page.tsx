@@ -20,7 +20,7 @@ export default function TermsPage() {
           heading: "Use of this site",
           paragraphs: [
             "This website is provided for informational purposes. You may browse, share, and reference it freely.",
-            "You agree not to misuse the site — no attempts to disrupt, probe, or reverse-engineer it beyond ordinary use.",
+            "You agree not to misuse the site, no attempts to disrupt, probe, or reverse-engineer it beyond ordinary use.",
           ],
         },
         {

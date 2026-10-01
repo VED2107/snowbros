@@ -1,145 +1,110 @@
 "use client";
 
-import { createElement, useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-type Tag = "div" | "section" | "li" | "article" | "span" | "figure";
+type Tag = "div" | "section" | "li" | "article" | "span" | "figure" | "ul" | "ol";
 
 type RevealProps = {
   children: React.ReactNode;
   className?: string;
+  /** Seconds, kept for API compatibility. Capped so nothing waits on decoration. */
   delay?: number;
   id?: string;
   as?: Tag;
+  /** Component name shown in Blueprint mode. */
+  "data-sheet"?: string;
 };
 
-const CINEMATIC_EASE = "power3.out";
-const DURATION = 0.9;
-const DISTANCE = 26;
-
-function prefersReduced() {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
+const MAX_DELAY_MS = 240;
 
 /**
- * Scroll-triggered reveal — GSAP + ScrollTrigger, slow cinematic ease.
- * Standalone (not inside a RevealGroup): animates itself on scroll.
- * Reduced-motion: renders fully visible, no animation.
+ * Reveal on first entry. Why it animates: a short settle tells the reader
+ * which block just arrived, without moving anything already in view.
+ *
+ * Content renders visible on the server. The client only hides an element
+ * that is still below the fold, then a CSS transition brings it in once
+ * (opacity + 8px, 480ms, strong ease-out). Reduced motion: never hidden.
  */
-export function Reveal({
-  children,
-  className,
-  delay = 0,
-  id,
-  as = "div",
-}: RevealProps) {
-  const ref = useRef<HTMLElement>(null);
-
+function useReveal(ref: React.RefObject<HTMLDivElement | null>, group: boolean, stagger = 0) {
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const root = ref.current;
+    if (!root) return;
+    if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
 
-    // Skip if a RevealGroup parent claims this element (group drives it).
-    if (el.closest("[data-reveal-group]") && el.dataset.revealSelf !== "true") {
-      gsap.set(el, { clearProps: "all" });
-      return;
-    }
-
-    if (prefersReduced()) {
-      gsap.set(el, { opacity: 1, y: 0 });
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: DISTANCE },
-        {
-          opacity: 1,
-          y: 0,
-          duration: DURATION,
-          delay,
-          ease: CINEMATIC_EASE,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        },
+    let targets: HTMLElement[];
+    if (group) {
+      targets = Array.from(root.children) as HTMLElement[];
+      targets.forEach((k, i) =>
+        k.style.setProperty("--reveal-delay", `${Math.min(i * stagger * 1000, MAX_DELAY_MS)}ms`),
       );
-    }, el);
+    } else {
+      // A RevealGroup parent drives its children.
+      if (root.parentElement?.closest("[data-reveal-group]")) return;
+      targets = [root];
+    }
 
-    return () => ctx.revert();
-  }, [delay]);
+    const below = targets.filter((el) => el.getBoundingClientRect().top > window.innerHeight * 0.92);
+    if (below.length === 0) return;
+    below.forEach((el) => el.setAttribute("data-reveal", "pending"));
 
-  return createElement(
-    as,
-    { ref, id, className: cn(className), style: { opacity: 0 } },
-    children,
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-reveal", "done");
+          io.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.01 },
+    );
+    below.forEach((el) => io.observe(el));
+
+    return () => {
+      io.disconnect();
+      below.forEach((el) => el.removeAttribute("data-reveal"));
+    };
+  }, [ref, group, stagger]);
+}
+
+export function Reveal({ children, className, delay = 0, id, as = "div", "data-sheet": sheet }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  useReveal(ref, false);
+  const El: React.ElementType = as;
+  return (
+    <El
+      ref={ref as never}
+      id={id}
+      data-sheet={sheet}
+      className={cn(className)}
+      style={delay ? ({ "--reveal-delay": `${Math.min(delay * 1000, MAX_DELAY_MS)}ms` } as React.CSSProperties) : undefined}
+    >
+      {children}
+    </El>
   );
 }
 
-/**
- * Container that staggers its direct Reveal children with GSAP.
- * Each child animates in sequence as the group scrolls into view.
- */
+/** Staggers direct children by 50ms (capped), once, on entry. */
 export function RevealGroup({
   children,
   className,
-  stagger = 0.09,
+  stagger = 0.05,
+  as = "div",
+  "data-sheet": sheet,
 }: {
   children: React.ReactNode;
   className?: string;
   stagger?: number;
+  as?: Tag;
+  "data-sheet"?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const targets = Array.from(el.children) as HTMLElement[];
-    if (targets.length === 0) return;
-
-    if (prefersReduced()) {
-      gsap.set(targets, { opacity: 1, y: 0 });
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        targets,
-        { opacity: 0, y: DISTANCE },
-        {
-          opacity: 1,
-          y: 0,
-          duration: DURATION,
-          ease: CINEMATIC_EASE,
-          stagger,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        },
-      );
-    }, el);
-
-    return () => ctx.revert();
-  }, [stagger]);
-
+  useReveal(ref, true, stagger);
+  const El: React.ElementType = as;
   return (
-    <div ref={ref} data-reveal-group className={cn(className)}>
+    <El ref={ref as never} data-reveal-group="" data-sheet={sheet} className={cn(className)}>
       {children}
-    </div>
+    </El>
   );
 }

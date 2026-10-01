@@ -15,7 +15,7 @@ export default function SecurityPage() {
       slug="security"
       title="Security & Responsible Disclosure"
       updated="June 2026"
-      intro="We take security seriously — on this site and in everything we build."
+      intro="We take security seriously, on this site and in everything we build."
       sections={[
         {
           heading: "How this site is protected",

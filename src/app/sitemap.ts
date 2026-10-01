@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
-import { projects, posts } from "@/lib/content";
+import { caseStudies, posts } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
 
-  for (const p of projects) {
+  for (const p of caseStudies) {
     entries.push({
       url: `${site.url}/work/${p.slug}`,
       lastModified: now,

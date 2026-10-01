@@ -1,13 +1,13 @@
-import { services, projects, posts } from "@/lib/content";
+import { services, projects, posts, projectHref } from "@/lib/content";
 
-export type SearchDoc = {
+type SearchDoc = {
   title: string;
   href: string;
   kind: "Service" | "Work" | "Post" | "Page";
   text: string;
 };
 
-export const searchIndex: SearchDoc[] = [
+const searchIndex: SearchDoc[] = [
   ...services.map((s) => ({
     title: s.title,
     href: `/services#${s.slug}`,
@@ -16,9 +16,9 @@ export const searchIndex: SearchDoc[] = [
   })),
   ...projects.map((p) => ({
     title: p.title,
-    href: `/work/${p.slug}`,
+    href: projectHref(p),
     kind: "Work" as const,
-    text: `${p.client} ${p.discipline} ${p.summary}`,
+    text: `${p.client} ${p.category} ${p.discipline} ${p.summary} ${p.technologies.join(" ")}`,
   })),
   ...posts.map((p) => ({
     title: p.title,

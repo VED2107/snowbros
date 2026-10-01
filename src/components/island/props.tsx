@@ -36,7 +36,7 @@ export function Mascot({
         <sphereGeometry args={[0.14, 16, 16]} />
         <meshStandardMaterial color={SNOW} roughness={0.9} />
       </mesh>
-      {/* ice-mint scarf — the one small brand accent */}
+      {/* ice-mint scarf, the one small brand accent */}
       <mesh position={[0, 0.29, 0]}>
         <torusGeometry args={[0.14, 0.03, 8, 16]} />
         <meshStandardMaterial color={MINT} roughness={0.5} />

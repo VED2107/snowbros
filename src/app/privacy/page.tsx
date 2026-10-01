@@ -21,7 +21,7 @@ export default function PrivacyPage() {
           heading: "What we collect",
           paragraphs: [
             "When you contact us, we store the details you send: your name, email, and message. That is it.",
-            "We use privacy-first, cookieless analytics to understand aggregate traffic. We do not build advertising profiles or sell data — ever.",
+            "We use privacy-first, cookieless analytics to understand aggregate traffic. We do not build advertising profiles or sell data, ever.",
           ],
         },
         {

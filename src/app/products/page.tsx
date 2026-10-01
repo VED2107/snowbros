@@ -3,80 +3,86 @@ import Image from "next/image";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/seo";
 import { products } from "@/lib/site";
+import { getProject } from "@/lib/content";
 import { PageHeader } from "@/components/sections/page-header";
-import { Section } from "@/components/layout/section";
-import { Icon } from "@/components/ui/icon";
-import { Reveal, RevealGroup } from "@/components/motion/reveal";
+import { TitleBlock } from "@/components/sheet/title-block";
+import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = pageMetadata({
   title: "Products",
   description:
-    "Products engineered and maintained by SNOWBROS. Starting with Atlas — deterministic static analysis for JavaScript & TypeScript.",
+    "Open-source tools engineered and maintained by SNOWBROS: Atlas, deterministic static analysis in Rust, and Mentor, an engineering-intelligence skill for Claude Code.",
   path: "/products",
 });
+
+const install: Record<string, string> = {
+  atlas: "npx snowbros analyze",
+  mentor: "git clone github.com/snowbros-labs/mentor-skill",
+};
 
 export default function ProductsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Products"
-        title="Software we build for ourselves, in the open."
-        lead="SNOWBROS is a product studio. These are the tools we ship and stand behind — starting with Atlas."
+        title="Tools we build for ourselves, and publish."
+        lead="Everything here started as something we needed on client work. Both are open source, and both are used on the projects in our portfolio."
         breadcrumbs={[
           { name: "Home", href: "/" },
           { name: "Products", href: "/products" },
         ]}
       />
 
-      <Section>
-        <RevealGroup className="grid gap-6">
-          {products.map((p) => (
-            <Reveal as="div" key={p.slug}>
-              <Link
-                href={p.href}
-                className="card-engineered card-glow group/prod block overflow-hidden p-8 md:p-10"
-              >
-                <div className="grid gap-8 md:grid-cols-[auto_1fr] md:items-start">
-                  <span className="grid h-16 w-16 place-items-center rounded-[var(--radius-lg)] border border-hairline bg-accent-weak">
-                    <Image src={p.logo} alt="" width={40} height={40} unoptimized className="h-10 w-10" />
-                  </span>
-                  <div>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <h2 className="text-[length:var(--text-2xl)] font-semibold tracking-[-0.02em]">
-                        {p.fullName}
-                      </h2>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-2.5 py-1 font-mono text-[11px] text-accent">
-                        <span className="status-dot scale-[0.6]" />
-                        {p.status}
-                      </span>
-                    </div>
-                    <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-secondary">
-                      {p.description}
-                    </p>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-md border border-hairline bg-surface px-2.5 py-1 font-mono text-[11px] text-secondary"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-                      Learn more
-                      <Icon
-                        name="arrow-right"
-                        className="text-[16px] transition-transform duration-300 group-hover/prod:translate-x-1"
-                      />
-                    </span>
-                  </div>
+      <div className="mx-auto grid max-w-[1240px] gap-24 px-[var(--spacing-gutter)] py-16 md:gap-32 md:py-24">
+        {products.map((p, i) => {
+          const proj = getProject(p.slug);
+          const shot = proj?.media[0];
+          return (
+            <article key={p.slug} className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+              <Reveal className={i % 2 ? "lg:order-2 lg:col-span-6 lg:col-start-7" : "lg:col-span-6"}>
+                <div className="plot-rule mb-6 h-px w-full bg-ink" aria-hidden />
+                <div className="flex items-center gap-3">
+                  <Image src={p.logo} alt="" width={36} height={36} unoptimized className="h-9 w-9" />
+                  <h2 className="text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)] text-ink">
+                    <Link href={p.href} className="transition-colors duration-[160ms] hover:text-accent">
+                      {p.fullName}
+                    </Link>
+                  </h2>
                 </div>
-              </Link>
-            </Reveal>
-          ))}
-        </RevealGroup>
-      </Section>
+                <p className="mt-5 text-[length:var(--text-xl)] leading-snug tracking-[-0.015em] text-ink">{p.tagline}</p>
+                <p className="mt-4 max-w-[60ch] text-[15px] leading-relaxed text-secondary">{p.description}</p>
+                <code className="mt-8 block rounded-[var(--radius-md)] border border-ink bg-ink px-4 py-3 font-mono text-[13px] text-background">
+                  <span className="text-accent">$ </span>
+                  {install[p.slug]}
+                </code>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button href={p.href} keyGlyph="next">
+                    Open {p.name}
+                  </Button>
+                  <Button href={p.repo} variant="secondary">
+                    Source
+                  </Button>
+                </div>
+              </Reveal>
+              <Reveal className={i % 2 ? "lg:order-1 lg:col-span-5" : "lg:col-span-5 lg:col-start-8"}>
+                {shot && (
+                  <div className="frame-night mb-5 max-h-[420px] overflow-hidden">
+                    <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes="(min-width: 1024px) 480px, 100vw" className="block h-auto w-full" />
+                  </div>
+                )}
+                <TitleBlock
+                  heading={p.fullName}
+                  rows={[
+                    { label: "Status", value: p.status },
+                    { label: "License", value: p.slug === "atlas" ? "MIT or Apache-2.0" : "MIT" },
+                    { label: "Built with", value: p.tags.filter((t) => t !== "Open Source").join(", "), wide: true },
+                  ]}
+                />
+              </Reveal>
+            </article>
+          );
+        })}
+      </div>
     </>
   );
 }

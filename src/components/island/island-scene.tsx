@@ -14,7 +14,7 @@ const IslandCanvas = dynamic(
  * Progressive by design:
  *  - Always renders a calm CSS backdrop (works with zero JS / no WebGL).
  *  - Mounts the WebGL scene only on capable, wide, non-reduced-motion
- *    devices, and only while it is on screen — protecting mobile
+ *    devices, and only while it is on screen, protecting mobile
  *    performance and the Lighthouse budget.
  */
 export function IslandScene() {
@@ -38,7 +38,7 @@ export function IslandScene() {
       webgl = false;
     }
 
-    // Browser-only capability probe — cannot run during SSR render, so this
+    // Browser-only capability probe, cannot run during SSR render, so this
     // one-time sync into state after mount is intentional.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnimate(!reduce);
@@ -50,7 +50,7 @@ export function IslandScene() {
       aria-hidden
       className="pointer-events-none absolute inset-0 -z-0 select-none"
     >
-      {/* Base backdrop — cinematic monochrome light, always present */}
+      {/* Base backdrop, cinematic monochrome light, always present */}
       <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_72%_-15%,rgba(255,255,255,0.10)_0%,rgba(255,255,255,0.03)_28%,transparent_58%)]" />
       <div className="absolute right-[-12%] top-[2%] hidden aspect-square w-[52%] rounded-full bg-[radial-gradient(circle_at_45%_40%,rgba(255,255,255,0.14),rgba(255,255,255,0.04)_45%,transparent_70%)] blur-3xl md:block" />
       {/* Cool counter-glow, lower-left, keeps the frame from going flat */}

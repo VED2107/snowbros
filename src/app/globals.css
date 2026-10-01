@@ -5,147 +5,155 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
-  SNOWBROS design system — warm editorial light.
+  SNOWBROS design system — "drafting paper".
 
-  Warm off-white paper (#FAFAF8), near-black ink (#111110), and ONE restrained
-  accent: Deep Forest (#24423A). Emphasis comes from type weight, space, and a
-  single considered color — never from painting the UI. The look sits between
-  Linear / Vercel / Stripe / Notion: engineered, quiet, premium.
+  A warm cream sheet (#F7F4EE), near-black ink, and ONE signal color: a burnt
+  survey orange (#C2461A, 4.7:1 on the sheet). The page reads like an
+  engineering drawing: hierarchy comes from type, rules and alignment, not from
+  boxes and shadows.
 
-  IMPORTANT: shadcn owns the semantic color names (background, foreground,
-  border, muted, secondary, accent, card, primary, ring, ...). Those are the
-  single source of truth in :root below and exposed to Tailwind via
-  `@theme inline`. Do NOT redefine those same --color-* names in the plain
-  `@theme` block — that double-definition is what breaks text-secondary etc.
+  Rules of the system (documented in DESIGN.md):
+  - Ink fills the primary action. Orange is a signal, never a fill for CTAs:
+    the wordmark node, active navigation, focus, live state, link rules.
+  - One radius: 4px for every control and panel, 6px for large media frames.
+    No pills.
+  - Shadows only on things that float (menus). Everything else is ruled.
+  - Motion: 160ms feedback, 280ms interface, 520ms reveal. Strong ease-out.
 
-  The plain `@theme` block holds BRAND-ONLY tokens shadcn does not own:
-  ink, surface, elevated, hairline, accent-weak/-strong — plus type/space/motion.
+  shadcn owns the semantic names (background, foreground, primary, accent ...)
+  in :root below, exposed through `@theme inline`. Brand-only tokens live in the
+  plain `@theme` block. Do not define a name in both.
 */
 
 @theme {
-  /* ---- Brand-only color tokens (no shadcn collision) ---- */
-  --color-ink: #171717; /* primary text — text-ink (near-black) */
-  --color-surface: #fafbfa; /* raised inner panels */
-  --color-elevated: #f4f6f5; /* section band — one step up from body */
-  --color-hairline: #d6dbd8; /* cool engineering hairline */
-  --color-hairline-strong: #c1c9c4; /* stronger rule / hover border */
-  --color-accent-weak: #e8f0ec; /* muted green wash */
-  --color-accent-strong: #1c342e; /* darker forest — hover / press */
-  --color-card-hover: #f4f8f5; /* faint green card hover fill */
+  /* ---- Brand-only color tokens ---- */
+  --color-ink: #161513;
+  --color-surface: #fbf9f5; /* raised sheet */
+  --color-elevated: #efebe3; /* sunken band */
+  --color-hairline: #e0d9cc;
+  --color-hairline-strong: #c9c0b0;
+  --color-accent-weak: #f4e3d8; /* orange wash, used for selection-like states */
+  --color-accent-strong: #a33a14; /* orange hover / press */
+  --color-card-hover: #fdfbf8;
+  --color-night: #141412; /* dark media plate behind dark product shots */
 
   /* ---- Typography ---- */
-  --font-sans: var(--font-geist-sans), "Inter", ui-sans-serif, system-ui,
-    sans-serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  /* Display serif — Instrument Serif, HERO MOMENTS ONLY (.display-serif) */
-  --font-display: var(--font-instrument-serif), ui-serif, Georgia,
-    "Times New Roman", serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 
-  /* Fluid editorial scale (min → max via clamp) */
+  /*
+    Type scale. Each size has one job.
+    caption  11-12px mono metadata
+    sm       14px    secondary UI text
+    base     16px    body
+    lg       18px    lead paragraphs
+    xl       20-24   card / row titles
+    2xl      24-32   case-study section heads
+    3xl      32-48   section heads
+    4xl      40-64   page titles
+    5xl      44-84   the home headline only
+  */
   --text-caption: 0.75rem;
-  --text-caption--line-height: 1.4;
-  --text-caption--letter-spacing: 0.08em;
+  --text-caption--line-height: 1.45;
+  --text-caption--letter-spacing: 0.04em;
 
   --text-sm: 0.875rem;
   --text-sm--line-height: 1.6;
 
   --text-base: 1rem;
-  --text-base--line-height: 1.7;
+  --text-base--line-height: 1.65;
 
-  --text-lg: 1.1875rem;
-  --text-lg--line-height: 1.65;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
 
-  --text-xl: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
-  --text-xl--line-height: 1.4;
+  --text-xl: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --text-xl--line-height: 1.3;
 
-  --text-2xl: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
-  --text-2xl--line-height: 1.25;
+  --text-2xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --text-2xl--line-height: 1.2;
 
-  --text-3xl: clamp(2rem, 1.5rem + 2.4vw, 3rem);
-  --text-3xl--line-height: 1.1;
-  --text-3xl--letter-spacing: -0.02em;
+  --text-3xl: clamp(2rem, 1.55rem + 1.9vw, 3rem);
+  --text-3xl--line-height: 1.08;
+  --text-3xl--letter-spacing: -0.03em;
 
-  --text-4xl: clamp(2.75rem, 1.9rem + 4vw, 4.5rem);
+  --text-4xl: clamp(2.5rem, 1.8rem + 3vw, 4rem);
   --text-4xl--line-height: 1.02;
-  --text-4xl--letter-spacing: -0.025em;
+  --text-4xl--letter-spacing: -0.035em;
 
-  --text-5xl: clamp(3.25rem, 1.6rem + 7.4vw, 7rem);
-  --text-5xl--line-height: 0.96;
-  --text-5xl--letter-spacing: -0.032em;
+  --text-5xl: clamp(2.75rem, 1.6rem + 4.6vw, 5.25rem);
+  --text-5xl--line-height: 0.98;
+  --text-5xl--letter-spacing: -0.042em;
 
-  /* ---- Radius ---- */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* ---- Radius: one system ---- */
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
 
   /* ---- Motion ---- */
-  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-soft: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-soft: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-press: 160ms;
+  --duration-ui: 280ms;
+  --duration-reveal: 520ms;
 
   /* ---- Layout ---- */
-  --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
-  --breakpoint-content: 1200px;
+  --spacing-gutter: clamp(1rem, 4vw, 3rem);
+  --breakpoint-content: 1240px;
 }
 
-/*
-  shadcn/ui semantic tokens — literal light values, single source of truth.
-  Light-only site, so :root and .dark resolve identically (the .dark class on
-  <html> is retained only so shadcn's dark: variants never fire unexpectedly).
-*/
 :root,
 .dark {
-  --background: #eef2f1; /* cool-gray body — deepest layer */
-  --foreground: #171717; /* near-black ink */
+  --background: #f7f4ee;
+  --foreground: #161513;
 
-  --card: #ffffff;
-  --card-foreground: #171717;
-  --popover: #ffffff;
-  --popover-foreground: #171717;
+  --card: #fbf9f5;
+  --card-foreground: #161513;
+  --popover: #fbf9f5;
+  --popover-foreground: #161513;
 
-  /* Primary = Deep Forest — the one accent, used for the main CTA */
-  --primary: #24423a;
-  --primary-foreground: #f8f9f8;
+  /* Primary action = ink */
+  --primary: #161513;
+  --primary-foreground: #f7f4ee;
 
-  /* text-secondary — cool engineering grey (~5.8:1 on base) */
-  --secondary: #5f6468;
-  --secondary-foreground: #f8f9f8;
+  /* text-secondary (6.7:1 on the sheet) */
+  --secondary: #57534c;
+  --secondary-foreground: #f7f4ee;
 
-  /* text-muted — fainter grey, still ≥4.5:1 on the base */
-  --muted: #646a6e;
-  --muted-foreground: #5f6468;
+  /* text-muted (4.7:1 on the sheet) */
+  --muted: #6c675e;
+  --muted-foreground: #57534c;
 
-  /* accent = Deep Forest (color used sparingly for emphasis / links) */
-  --accent: #24423a;
-  --accent-foreground: #f8f9f8;
+  /* Signal orange */
+  --accent: #c2461a;
+  --accent-foreground: #f7f4ee;
 
   --destructive: #b3261e;
-  --border: #d6dbd8;
-  --input: #c1c9c4;
-  --ring: rgba(36, 66, 58, 0.55);
+  --border: #e0d9cc;
+  --input: #c9c0b0;
+  --ring: #c2461a;
 
-  /* Charts — forest-anchored warm ramp */
-  --chart-1: #24423a;
-  --chart-2: #4b6b60;
-  --chart-3: #8a5a3c;
-  --chart-4: #a8a196;
-  --chart-5: #cfcabf;
+  --chart-1: #161513;
+  --chart-2: #c2461a;
+  --chart-3: #57534c;
+  --chart-4: #a39b8c;
+  --chart-5: #e0d9cc;
 
-  --sidebar: #fcfcfc;
-  --sidebar-foreground: #151515;
-  --sidebar-primary: #24423a;
-  --sidebar-primary-foreground: #f8f9f8;
-  --sidebar-accent: #f8f9f8;
-  --sidebar-accent-foreground: #151515;
-  --sidebar-border: #d9dedb;
-  --sidebar-ring: rgba(36, 66, 58, 0.55);
+  --sidebar: #fbf9f5;
+  --sidebar-foreground: #161513;
+  --sidebar-primary: #161513;
+  --sidebar-primary-foreground: #f7f4ee;
+  --sidebar-accent: #efebe3;
+  --sidebar-accent-foreground: #161513;
+  --sidebar-border: #e0d9cc;
+  --sidebar-ring: #c2461a;
 
-  --radius: 14px;
+  --radius: 4px;
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -188,27 +196,31 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
-    scroll-behavior: smooth;
     color-scheme: light;
+    scroll-padding-top: 5rem;
     @apply font-sans;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv01", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     @apply bg-background text-foreground;
   }
 
   ::selection {
-    background: var(--accent);
-    color: #f8f9f8;
+    background: var(--color-ink);
+    color: var(--background);
   }
 
-  /* Visible, consistent focus — accessibility baseline */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 3px;
@@ -220,18 +232,13 @@
     text-decoration: none;
   }
 
-  /*
-    Product-first typography: headings default to the Geist grotesk with tight
-    tracking. The display serif (Instrument Serif) is reserved for hero moments
-    only, applied deliberately via `.display-serif` — never site-wide.
-  */
   h1,
   h2,
   h3,
   h4 {
     font-family: var(--font-sans);
-    font-weight: 560;
-    letter-spacing: -0.021em;
+    font-weight: 500;
+    letter-spacing: -0.022em;
     text-wrap: balance;
   }
 
@@ -239,11 +246,11 @@
     text-wrap: pretty;
   }
 
-  /* Hero-only display serif — Instrument Serif, large and airy */
+  /* Legacy hook: the display serif was retired. Same family, display tuning. */
   .display-serif {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-weight: 500;
+    letter-spacing: -0.035em;
     font-style: normal;
   }
 
@@ -254,179 +261,104 @@
 }
 
 @layer components {
-  /* Eyebrow label — part of the hierarchy, not a footnote. Mono, forest. */
+  /*
+    Metadata label. Mono, sentence case, muted. Not an eyebrow over every
+    heading: use for facts (status, year, stack), not to announce sections.
+  */
   .eyebrow {
-    font-family: var(--font-mono); /* mono eyebrow — engineering signal */
-    font-size: 0.875rem; /* 14px */
-    line-height: 1.4;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    font-weight: 450;
   }
 
-  /* Forest accent inline text link with a drawn underline */
+  /* Small label for facts: sans, muted, tabular figures. Mono is kept for
+     code, versions and measurements, never as a "technical" costume. */
+  .meta {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: 0;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Inline link with a drawn rule. The rule is the affordance. */
   .link-accent {
-    color: var(--accent);
-    font-weight: 500;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0% 1px;
+    color: var(--color-ink);
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 100% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.28s var(--ease-out-soft);
+    padding-bottom: 1px;
+    transition:
+      color var(--duration-press) ease,
+      background-size var(--duration-ui) var(--ease-out-soft);
   }
-  .link-accent:hover {
-    background-size: 100% 1px;
-  }
-
-  /*
-    Page atmosphere — a fixed, almost-invisible engineering grid plus a warm
-    radial lift near the top. Pointer-events-none; sits above the paper but
-    below content. Extremely subtle by design.
-  */
-  .page-atmosphere {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
+  @media (hover: hover) and (pointer: fine) {
+    .link-accent:hover {
+      color: var(--accent);
+    }
   }
 
-  .page-atmosphere::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(17, 17, 16, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(17, 17, 16, 0.025) 1px, transparent 1px);
-    background-size: 72px 72px;
-    -webkit-mask-image: radial-gradient(
-      120% 90% at 50% 0%,
-      #000 0%,
-      transparent 62%
-    );
-    mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 62%);
-  }
-
-  .page-atmosphere::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      100% 60% at 50% -8%,
-      rgba(36, 66, 58, 0.05) 0%,
-      transparent 60%
-    );
-  }
-
-  /* Fine paper grain — barely-there tooth over the whole page */
+  /* Legacy atmosphere hooks: retired. The sheet is plain on purpose. */
+  .page-atmosphere,
   .paper-grain {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+    display: none;
   }
 
   /*
-    Engineered card — an engineering-module surface, not a default box.
-    Cool hairline, tiny radius, soft layered shadow. Optional cursor-follow
-    glow via --mx/--my custom props (set by CursorGlow client wrapper).
+    Panel. A ruled sheet, not a floating card. Hover only sharpens the rule.
+    (Class name kept for the product pages that use it.)
   */
   .card-engineered {
     position: relative;
-    background: var(--card);
-    border: 1px solid var(--hairline);
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
     border-radius: var(--radius-lg);
-    box-shadow:
-      0 1px 2px rgba(23, 23, 23, 0.06),
-      0 4px 8px -4px rgba(23, 23, 23, 0.08),
-      0 16px 32px -20px rgba(23, 23, 23, 0.22);
     transition:
-      transform 0.4s var(--ease-out-soft),
-      border-color 0.4s var(--ease-out-soft),
-      box-shadow 0.4s var(--ease-out-soft),
-      background-color 0.4s var(--ease-out-soft);
+      border-color var(--duration-ui) var(--ease-out-soft),
+      background-color var(--duration-ui) var(--ease-out-soft);
   }
-  .card-engineered:hover {
-    transform: translateY(-3px);
-    border-color: var(--hairline-strong);
-    background: var(--color-card-hover);
-    box-shadow:
-      0 1px 2px rgba(23, 23, 23, 0.07),
-      0 8px 16px -6px rgba(23, 23, 23, 0.1),
-      0 32px 60px -28px rgba(23, 23, 23, 0.32);
+  @media (hover: hover) and (pointer: fine) {
+    a.card-engineered:hover,
+    .card-engineered:is(a):hover {
+      border-color: var(--color-hairline-strong);
+      background: var(--color-card-hover);
+    }
   }
 
-  /* Cursor-follow glow — extremely subtle forest bloom under the pointer */
+  /* Retired: cursor glow. Kept as a no-op so old markup stays valid. */
   .card-glow::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.4s var(--ease-out-soft);
-    background: radial-gradient(
-      240px circle at var(--mx, 50%) var(--my, 0%),
-      rgba(36, 66, 58, 0.08),
-      transparent 60%
-    );
-  }
-  .card-glow:hover::before {
-    opacity: 1;
+    content: none;
   }
 
-  /* Live status dot — pulsing forest node for module headers */
+  /* Live state. Static: a dot that means "running", not a pulse. */
   .status-dot {
     position: relative;
     display: inline-flex;
-    height: 0.5rem;
-    width: 0.5rem;
-  }
-  .status-dot::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    height: 0.4375rem;
+    width: 0.4375rem;
     border-radius: 9999px;
     background: var(--accent);
-    opacity: 0.55;
-    animation: status-ping 2s var(--ease-out-soft) infinite;
+    flex-shrink: 0;
   }
+  .status-dot::before,
   .status-dot::after {
-    content: "";
-    position: relative;
-    height: 0.5rem;
-    width: 0.5rem;
-    border-radius: 9999px;
-    background: var(--accent);
-  }
-  @keyframes status-ping {
-    0% { transform: scale(1); opacity: 0.55; }
-    70%,
-    100% { transform: scale(2.4); opacity: 0; }
+    content: none;
   }
 
-  /* Floating engineering widget — gentle vertical drift */
+  /* Retired: infinite drift. Static. */
   .widget-drift {
-    animation: widget-drift 7s var(--ease-in-out-soft) infinite;
-  }
-  @keyframes widget-drift {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-7px);
-    }
+    animation: none;
   }
 
-  /* Sparkline draw-in */
   .spark-draw {
     stroke-dasharray: 120;
     stroke-dashoffset: 120;
-    animation: spark-draw 1.4s var(--ease-out-soft) 0.4s forwards;
+    animation: spark-draw 1.2s var(--ease-out-soft) 0.3s forwards;
   }
   @keyframes spark-draw {
     to {
@@ -434,17 +366,52 @@
     }
   }
 
-  /* Blueprint dot-grid panel background */
   .dot-grid {
-    background-image: radial-gradient(
-      var(--color-hairline) 1px,
-      transparent 1px
-    );
+    background-image: radial-gradient(var(--color-hairline) 1px, transparent 1px);
     background-size: 20px 20px;
+  }
+
+  /* Press feedback for anything clickable that is not a Button. */
+  .pressable {
+    transition: transform var(--duration-press) var(--ease-out-soft);
+  }
+  .pressable:active {
+    transform: scale(0.985);
+  }
+
+  /*
+    Reveal. Content is visible by default (no-JS, crawlers, reduced motion).
+    The Reveal client component adds [data-reveal="pending"] only after it
+    has confirmed motion is allowed and the element is below the fold.
+  */
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  [data-reveal="done"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-reveal) var(--ease-out-soft),
+      transform var(--duration-reveal) var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* Media frame for product screenshots. */
+  .frame {
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--color-elevated);
+  }
+  .frame-night {
+    border: 1px solid #2a2925;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--color-night);
   }
 }
 
-/* Respect reduced motion globally */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -455,7 +422,186 @@
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Keep color/opacity feedback, drop movement. */
+  .pressable:active {
+    transform: none;
+  }
+}
+
+/*
+  Plotter rule. When a .plot block reveals, its rule draws left to right
+  (scaleX, 640ms, ease-in-out) before the text settles. Visible by default.
+*/
+@layer components {
+  .plot[data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+  .plot[data-reveal="pending"] .plot-rule {
+    transform: scaleX(0);
+  }
+  .plot[data-reveal="pending"] > :not(.plot-rule) {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .plot .plot-rule {
+    transform-origin: left center;
+  }
+  .plot[data-reveal="done"] {
+    transition: none;
+  }
+  .plot[data-reveal="done"] .plot-rule {
+    transform: scaleX(1);
+    transition: transform 640ms var(--ease-in-out-soft);
+  }
+  .plot[data-reveal="done"] > :not(.plot-rule) {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 480ms var(--ease-out-soft) 220ms,
+      transform 480ms var(--ease-out-soft) 220ms;
+  }
+}
+
+/* First-load entrance for the hero only. Once per visit, never looped. */
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .enter {
+      animation: enter-rise 620ms var(--ease-out-soft) backwards;
+      animation-delay: var(--enter-delay, 0ms);
+    }
+  }
+  @keyframes enter-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* State swap in place: opacity + 2px blur bridge the two states. */
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .swap-in {
+      animation: swap-in 200ms ease-out both;
+    }
+  }
+  @keyframes swap-in {
+    from {
+      opacity: 0;
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      filter: none;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Blueprint mode (html[data-blueprint]): the page's working drawing    */
+/* ------------------------------------------------------------------ */
+@layer components {
+  html[data-blueprint] [data-sheet] {
+    position: relative;
+    outline: 1px dashed var(--accent);
+    outline-offset: 4px;
+  }
+  html[data-blueprint] [data-sheet]::before {
+    content: attr(data-sheet);
+    position: absolute;
+    z-index: 61;
+    top: -4px;
+    left: -4px;
+    translate: 0 -100%;
+    background: var(--accent);
+    color: #fbf9f5;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  html[data-blueprint] [data-spec] {
+    background-image: linear-gradient(to bottom, rgba(194, 70, 26, 0.08), rgba(194, 70, 26, 0.08));
+    box-shadow: inset 0 -1px 0 var(--accent), inset 0 1px 0 var(--accent);
+  }
+  html[data-blueprint] [data-spec]::after {
+    content: attr(data-spec);
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1.3;
+    letter-spacing: 0;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: none;
+  }
+  html[data-blueprint] .frame,
+  html[data-blueprint] .frame-night,
+  html[data-blueprint] img {
+    outline: 1px solid rgba(194, 70, 26, 0.55);
+  }
+  html[data-blueprint] :is(a, button) {
+    outline: 1px dotted rgba(194, 70, 26, 0.6);
+    outline-offset: 2px;
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Drafting table (home hero): a quiet grid mat with a ruler edge       */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .table-mat {
+    position: relative;
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--radius-xl);
+    background-color: #f1ede5;
+    background-image:
+      linear-gradient(to right, rgba(22, 21, 19, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(22, 21, 19, 0.055) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+    overflow: hidden;
+  }
+  /* Ruler: ticks every 8px, a longer one every 32px, aligned to the grid. */
+  .table-ruler {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 14px;
+    border-bottom: 1px solid var(--color-hairline-strong);
+    background-color: var(--color-surface);
+    background-image:
+      linear-gradient(to right, rgba(22, 21, 19, 0.45) 1px, transparent 1px),
+      linear-gradient(to right, rgba(22, 21, 19, 0.22) 1px, transparent 1px);
+    background-size: 32px 7px, 8px 4px;
+    background-repeat: repeat-x;
+    background-position: -1px 100%, -1px 100%;
+  }
+  .table-sheet {
+    transition:
+      translate var(--duration-ui) var(--ease-out-soft),
+      box-shadow var(--duration-ui) var(--ease-out-soft);
+    box-shadow: 0 1px 0 rgba(22, 21, 19, 0.04);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .table-sheet:hover {
+      translate: 0 -3px;
+      box-shadow: 0 14px 30px -18px rgba(22, 21, 19, 0.35);
+    }
+  }
+  .table-sheet:focus-visible {
+    translate: 0 -3px;
   }
 }

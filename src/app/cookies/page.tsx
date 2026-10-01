@@ -20,7 +20,7 @@ export default function CookiesPage() {
         {
           heading: "Essential only",
           paragraphs: [
-            "This site does not set advertising or cross-site tracking cookies. Any storage used is strictly to make the site function — for example, remembering your reduced-motion preference.",
+            "This site does not set advertising or cross-site tracking cookies. Any storage used is strictly to make the site function, for example, remembering your reduced-motion preference.",
           ],
         },
         {

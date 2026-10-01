@@ -64,7 +64,7 @@ export default function CreditsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="// credits"
+        eyebrow="credits"
         title="Built with care, engineered with intention."
         lead="The people, studio, and technology behind SNOWBROS."
         breadcrumbs={[
@@ -82,10 +82,10 @@ export default function CreditsPage() {
               <div className="mt-6 flex items-center gap-4">
                 <Image
                   src="/developer.jpeg"
-                  alt="Ved Chauhan — founder of SNOWBROS"
+                  alt="Ved Chauhan, founder of SNOWBROS"
                   width={64}
                   height={64}
-                  className="h-16 w-16 rounded-full object-cover object-[center_20%] ring-1 ring-inset ring-[rgba(36,66,58,0.18)]"
+                  className="h-16 w-16 rounded-full object-cover object-[center_20%] ring-1 ring-inset ring-[rgba(22,21,19,0.18)]"
                 />
                 <div>
                   <p className="text-lg font-semibold tracking-[-0.01em]">
@@ -151,7 +151,7 @@ export default function CreditsPage() {
         <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr]">
           <div>
             <Reveal>
-              <p className="eyebrow">// technology</p>
+              <p className="eyebrow">technology</p>
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="mt-5 text-[length:var(--text-2xl)] font-semibold tracking-[-0.02em]">
@@ -172,7 +172,7 @@ export default function CreditsPage() {
           </div>
           <div>
             <Reveal>
-              <p className="eyebrow">// hosting</p>
+              <p className="eyebrow">hosting</p>
             </Reveal>
             <RevealGroup className="mt-8 flex flex-col gap-3">
               {hosting.map((h) => (
@@ -181,7 +181,6 @@ export default function CreditsPage() {
                   key={h}
                   className="flex items-center gap-3 rounded-[var(--radius-md)] border border-hairline bg-surface px-4 py-3"
                 >
-                  <span className="status-dot scale-75" />
                   <span className="font-mono text-sm text-ink">{h}</span>
                 </Reveal>
               ))}
@@ -212,7 +211,7 @@ export default function CreditsPage() {
           <div className="mt-14 rounded-[var(--radius-xl)] border border-hairline bg-card p-8 text-center shadow-[0_1px_2px_rgba(23,23,23,0.05)] md:p-14">
             <p className="mx-auto max-w-2xl text-[length:var(--text-xl)] leading-relaxed text-ink">
               Every pixel, interaction, and line of code has been thoughtfully
-              crafted to reflect the way we believe software should be built —
+              crafted to reflect the way we believe software should be built , 
               simple, durable, and engineered to last.
             </p>
           </div>

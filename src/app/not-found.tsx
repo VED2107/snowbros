@@ -1,38 +1,41 @@
 import Link from "next/link";
+import { Icon } from "@/components/ui/icon";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { primaryNav } from "@/lib/site";
 
 export default function NotFound() {
   return (
-    <Container className="flex min-h-[70vh] flex-col items-center justify-center py-32 text-center">
-      <p className="eyebrow">404</p>
-      <h1 className="mt-6 text-[length:var(--text-4xl)] font-normal leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)]">
-        This path leads nowhere.
-      </h1>
-      <p className="mt-6 max-w-md text-lg text-secondary">
-        The page you were looking for has moved or never existed. Let&rsquo;s get
-        you back on solid ground.
-      </p>
-
-      <div className="mt-10 flex flex-wrap justify-center gap-4">
-        <Button href="/">Back home</Button>
-        <Button href="/contact" variant="secondary">
-          Contact us
-        </Button>
+    <Container className="py-16 md:py-24">
+      <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-7">
+          <p className="meta">Error 404</p>
+          <h1 className="mt-6 text-[length:var(--text-4xl)] font-medium leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-ink">
+            This sheet is not in the set<span className="text-accent">.</span>
+          </h1>
+          <p className="mt-6 max-w-[48ch] text-[length:var(--text-lg)] leading-relaxed text-secondary">
+            The page may have moved, or the link was mistyped. Here is the
+            index of what does exist.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button href="/" keyGlyph="next">Back home</Button>
+            <Button href="/search" variant="secondary">Search</Button>
+          </div>
+        </div>
+        <nav aria-label="Site index" className="lg:col-span-4 lg:col-start-9">
+          <p className="meta border-b border-ink pb-2">Sheet index</p>
+          <ul>
+            {[...primaryNav, { label: "Contact", href: "/contact" }, { label: "Writing", href: "/blog" }].map((item) => (
+              <li key={item.href} className="border-b border-hairline-strong">
+                <Link href={item.href} className="group flex items-center justify-between py-3 text-[17px] text-ink transition-colors hover:text-accent">
+                  {item.label}
+                  <Icon name="arrow-right" className="text-[16px] text-muted transition-transform duration-[160ms] group-hover:translate-x-1 group-hover:text-accent" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
-
-      <nav aria-label="Helpful links" className="mt-12">
-        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted">
-          {primaryNav.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className="transition-colors hover:text-ink">
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
     </Container>
   );
 }

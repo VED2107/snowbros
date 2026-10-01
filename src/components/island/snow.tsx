@@ -9,7 +9,7 @@ export function Snow({ count = 240, active = true }: { count?: number; active?: 
   const ref = useRef<THREE.Points>(null);
 
   const { positions, speeds } = useMemo(() => {
-    // Deterministic PRNG (mulberry32) — pure, stable across renders and SSR.
+    // Deterministic PRNG (mulberry32), pure, stable across renders and SSR.
     let seed = 0x9e3779b9;
     const rand = () => {
       seed |= 0;

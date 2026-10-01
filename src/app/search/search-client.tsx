@@ -48,7 +48,7 @@ export function SearchClient({ initialQuery }: { initialQuery: string }) {
                       {doc.text}
                     </p>
                   </div>
-                  <span className="shrink-0 rounded-full border border-border px-3 py-1 text-xs text-muted">
+                  <span className="shrink-0 rounded-[var(--radius-sm)] border border-hairline-strong px-2 py-0.5 font-mono text-[11px] text-xs text-muted">
                     {doc.kind}
                   </span>
                 </Link>

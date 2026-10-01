@@ -1,60 +1,68 @@
 import { Container } from "@/components/layout/container";
-import { Reveal } from "@/components/motion/reveal";
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
 
 type Crumb = { name: string; href: string };
 
+/**
+ * Page header: the sheet's heading. Breadcrumbs double as the label, so no
+ * separate eyebrow is needed; `eyebrow` is kept for compatibility and shown
+ * only when there are no breadcrumbs.
+ */
 export function PageHeader({
   eyebrow,
   title,
   lead,
   breadcrumbs,
+  children,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   lead?: string;
   breadcrumbs?: Crumb[];
+  children?: React.ReactNode;
 }) {
+  const hasCrumbs = breadcrumbs && breadcrumbs.length > 0;
   return (
-    <div className="border-b border-border">
-      {breadcrumbs && breadcrumbs.length > 0 && (
-        <BreadcrumbJsonLd items={breadcrumbs} />
-      )}
-      <Container className="pb-16 pt-24 md:pb-20 md:pt-32">
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-2 text-sm text-muted">
+    <div className="border-b border-ink" data-sheet="PageHeader">
+      {hasCrumbs && <BreadcrumbJsonLd items={breadcrumbs} />}
+      <Container className="pb-12 pt-12 md:pb-16 md:pt-20">
+        {hasCrumbs ? (
+          <nav aria-label="Breadcrumb" className="enter">
+            <ol className="meta flex flex-wrap items-center gap-2">
               {breadcrumbs.map((c, i) => (
                 <li key={c.href} className="flex items-center gap-2">
                   {i > 0 && <span aria-hidden>/</span>}
                   {i < breadcrumbs.length - 1 ? (
-                    <a href={c.href} className="transition-colors hover:text-ink">
+                    <a href={c.href} className="transition-colors duration-[160ms] hover:text-ink">
                       {c.name}
                     </a>
                   ) : (
-                    <span className="text-secondary">{c.name}</span>
+                    <span aria-current="page" className="text-ink">
+                      {c.name}
+                    </span>
                   )}
                 </li>
               ))}
             </ol>
           </nav>
+        ) : (
+          eyebrow && <p className="meta enter">{eyebrow}</p>
         )}
-
-        <Reveal>
-          <p className="eyebrow">{eyebrow}</p>
-        </Reveal>
-        <Reveal delay={0.05}>
-          <h1 className="mt-5 max-w-4xl text-[length:var(--text-4xl)] font-normal leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)]">
-            {title}
-          </h1>
-        </Reveal>
+        <h1
+          className="enter mt-6 max-w-[20ch] text-[length:var(--text-4xl)] font-medium leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-ink"
+          style={{ "--enter-delay": "60ms" } as React.CSSProperties}
+        >
+          {title}
+        </h1>
         {lead && (
-          <Reveal delay={0.1}>
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-secondary">
-              {lead}
-            </p>
-          </Reveal>
+          <p
+            className="enter mt-6 max-w-[58ch] text-[length:var(--text-lg)] leading-[var(--text-lg--line-height)] text-secondary"
+            style={{ "--enter-delay": "120ms" } as React.CSSProperties}
+          >
+            {lead}
+          </p>
         )}
+        {children}
       </Container>
     </div>
   );

@@ -1,4 +1,16 @@
 import type { NextConfig } from "next";
+import { execSync } from "node:child_process";
+
+/** Revision shown in the footer title block: the commit this build came from. */
+function revision() {
+  const sha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7);
+  if (sha) return sha;
+  try {
+    return execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+  } catch {
+    return "local";
+  }
+}
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -42,6 +54,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_BUILD_REV: revision(),
+    NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
+  },
   poweredByHeader: false,
   reactStrictMode: true,
   images: {

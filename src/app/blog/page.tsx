@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/sections/page-header";
-import { Section } from "@/components/layout/section";
-import { Reveal, RevealGroup } from "@/components/motion/reveal";
+import { RevealGroup } from "@/components/motion/reveal";
 import { posts } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -20,9 +19,9 @@ export const metadata: Metadata = {
 };
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString("en-GB", {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   });
 }
@@ -31,38 +30,36 @@ export default function BlogPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Engineering blog"
-        title="Notes from the studio."
-        lead="Occasional writing on performance, applied AI, and infrastructure — only when we have something worth saying."
+        title="Writing, when there is something worth saying."
+        lead="Notes on performance, applied AI and infrastructure, drawn from the work."
         breadcrumbs={[
           { name: "Home", href: "/" },
-          { name: "Blog", href: "/blog" },
+          { name: "Writing", href: "/blog" },
         ]}
       />
 
-      <Section>
-        <RevealGroup className="flex flex-col divide-y divide-border">
+      <div className="mx-auto max-w-[1240px] px-[var(--spacing-gutter)] py-16 md:py-24">
+        <RevealGroup as="ol" className="border-t border-ink">
           {posts.map((post) => (
-            <Reveal as="div" key={post.slug} className="py-10 first:pt-0">
-              <Link href={`/blog/${post.slug}`} className="group block">
-                <div className="flex items-center gap-4 text-xs text-muted">
-                  <span className="rounded-full border border-border px-3 py-1">
-                    {post.tag}
-                  </span>
+            <li key={post.slug} className="border-b border-hairline-strong">
+              <Link href={`/blog/${post.slug}`} className="group grid gap-x-8 gap-y-3 py-8 md:grid-cols-12 md:items-baseline">
+                <span className="meta md:col-span-2">
                   <time dateTime={post.date}>{formatDate(post.date)}</time>
-                  <span>{post.readingTime}</span>
-                </div>
-                <h2 className="mt-5 max-w-3xl text-[length:var(--text-2xl)] font-medium leading-[var(--text-2xl--line-height)] transition-colors group-hover:text-accent-strong">
-                  {post.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary">
-                  {post.excerpt}
-                </p>
+                </span>
+                <span className="md:col-span-7">
+                  <span className="block text-[length:var(--text-2xl)] leading-[var(--text-2xl--line-height)] tracking-[-0.03em] text-ink transition-colors duration-[160ms] group-hover:text-accent">
+                    {post.title}
+                  </span>
+                  <span className="mt-2 block max-w-[60ch] text-[15px] leading-relaxed text-secondary">{post.excerpt}</span>
+                </span>
+                <span className="meta md:col-span-3 md:text-right">
+                  {post.tag}, {post.readingTime}
+                </span>
               </Link>
-            </Reveal>
+            </li>
           ))}
         </RevealGroup>
-      </Section>
+      </div>
     </>
   );
 }

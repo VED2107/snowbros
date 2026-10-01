@@ -9,7 +9,7 @@ type CardProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 /*
-  SNOWBROS card — engineered, not the generic bordered box. Warm paper fill,
+  SNOWBROS card, engineered, not the generic bordered box. Warm paper fill,
   a single thin dark hairline, tiny radius, and a soft micro-shadow. On hover
   it lifts, the hairline darkens, the fill warms, and the shadow deepens.
   All of that lives in the `.card-engineered` component class (globals.css) so
@@ -64,7 +64,7 @@ export function Card({
   );
 }
 
-/** Diagonal arrow that lifts toward the corner on hover — signals "go". */
+/** Diagonal arrow that lifts toward the corner on hover, signals "go". */
 function CornerArrow() {
   return (
     <span
@@ -80,31 +80,6 @@ function CornerArrow() {
           strokeLinejoin="round"
         />
       </svg>
-    </span>
-  );
-}
-
-/** Consistent icon chip for card headers — forest-tinted, quietly raised. */
-export function CardIcon({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <span
-      className={cn(
-        "relative mb-6 inline-flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] text-[20px] text-accent",
-        "bg-accent-weak ring-1 ring-inset ring-[rgba(36,66,58,0.14)]",
-        "shadow-[0_1px_1px_rgba(17,17,16,0.04)]",
-        "transition-[color,box-shadow,background-color,transform] duration-500 ease-[var(--ease-out-soft)]",
-        "group-hover/card:bg-primary group-hover/card:text-primary-foreground",
-        "group-hover/card:shadow-[0_8px_20px_-8px_rgba(36,66,58,0.5)]",
-        className,
-      )}
-    >
-      {children}
     </span>
   );
 }

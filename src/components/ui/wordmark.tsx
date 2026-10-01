@@ -2,9 +2,21 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 /**
- * SNOWBROS wordmark. Original mark — a small ice-mint node glyph beside
- * a tightly-tracked wordmark. No reference to any existing property.
+ * SNOWBROS wordmark. A six-armed node (snowflake / graph vertex) beside the
+ * name. On hover the node turns 60°: six-fold symmetry means it lands exactly
+ * where it started, so the mark "clicks" without changing shape.
  */
+export function SnowNode({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className={className}>
+      <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <path d="M12 2.5v19M3.77 7.25l16.46 9.5M20.23 7.25 3.77 16.75" />
+      </g>
+      <circle cx="12" cy="12" r="3.1" fill="var(--accent)" />
+    </svg>
+  );
+}
+
 export function Wordmark({
   className,
   onClick,
@@ -16,37 +28,11 @@ export function Wordmark({
     <Link
       href="/"
       onClick={onClick}
-      aria-label="SNOWBROS — home"
-      className={cn(
-        "group inline-flex items-center gap-2.5 text-ink",
-        className,
-      )}
+      aria-label="SNOWBROS, home"
+      className={cn("group/mark inline-flex items-center gap-2.5 text-ink", className)}
     >
-      <span
-        aria-hidden
-        className="relative grid h-6 w-6 place-items-center"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          className="h-6 w-6"
-          role="presentation"
-        >
-          {/* six-point node: an abstract snowflake / graph node */}
-          <g
-            stroke="currentColor"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            className="text-ink/70 transition-colors group-hover:text-ink"
-          >
-            <path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9" />
-          </g>
-          <circle cx="12" cy="12" r="3" className="fill-accent" />
-        </svg>
-      </span>
-      <span className="text-[15px] font-semibold tracking-[0.14em]">
-        SNOWBROS
-      </span>
+      <SnowNode className="h-[22px] w-[22px] transition-transform duration-[520ms] ease-[var(--ease-in-out-soft)] group-hover/mark:rotate-60 motion-reduce:transition-none" />
+      <span className="text-[14px] font-semibold tracking-[0.16em]">SNOWBROS</span>
     </Link>
   );
 }

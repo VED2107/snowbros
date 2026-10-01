@@ -8,6 +8,7 @@ export type IconName =
   | "arrow-right"
   | "arrow-up-right"
   | "arrow-left"
+  | "arrow-down"
   | "check"
   | "mail"
   | "github"
@@ -33,6 +34,7 @@ const paths: Record<IconName, React.ReactNode> = {
   "arrow-right": <path d="M5 12h14M13 6l6 6-6 6" />,
   "arrow-up-right": <path d="M7 17 17 7M8 7h9v9" />,
   "arrow-left": <path d="M19 12H5M11 6l-6 6 6 6" />,
+  "arrow-down": <path d="M12 5v14M6 13l6 6 6-6" />,
   check: <path d="M20 6 9 17l-5-5" />,
   mail: (
     <>

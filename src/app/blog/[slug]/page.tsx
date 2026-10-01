@@ -30,9 +30,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString("en-GB", {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   });
 }
@@ -47,7 +47,7 @@ export default async function PostPage({ params }: Params) {
       <BreadcrumbJsonLd
         items={[
           { name: "Home", href: "/" },
-          { name: "Blog", href: "/blog" },
+          { name: "Writing", href: "/blog" },
           { name: post.title, href: `/blog/${post.slug}` },
         ]}
       />
@@ -60,39 +60,45 @@ export default async function PostPage({ params }: Params) {
             headline: post.title,
             description: post.excerpt,
             datePublished: post.date,
-            author: { "@type": "Organization", name: site.name },
+            author: { "@type": "Person", name: site.founder.name },
             publisher: { "@type": "Organization", name: site.name },
             url: `${site.url}/blog/${post.slug}`,
           }),
         }}
       />
 
-      <Container size="narrow" className="pt-24 md:pt-32">
-        <div className="flex items-center gap-4 text-xs text-muted">
-          <span className="rounded-full border border-border px-3 py-1">
-            {post.tag}
-          </span>
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
-          <span>{post.readingTime}</span>
-        </div>
-        <h1 className="mt-6 text-[length:var(--text-4xl)] font-normal leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)]">
+      <Container size="narrow" className="pt-12 md:pt-20">
+        <nav aria-label="Breadcrumb" className="meta enter">
+          <Link href="/blog" className="transition-colors hover:text-ink">Writing</Link>
+          <span aria-hidden> / </span>
+          <span className="text-ink">{post.tag}</span>
+        </nav>
+        <h1
+          className="enter mt-6 text-[length:var(--text-4xl)] font-medium leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-ink"
+          style={{ "--enter-delay": "60ms" } as React.CSSProperties}
+        >
           {post.title}
         </h1>
+        <p className="meta enter mt-6 border-t border-ink pt-3" style={{ "--enter-delay": "120ms" } as React.CSSProperties}>
+          <time dateTime={post.date}>{formatDate(post.date)}</time>, {post.readingTime} read, by {site.founder.name}
+        </p>
       </Container>
 
       <Container size="narrow" className="mt-12">
-        <div className="flex flex-col gap-6 text-lg leading-relaxed text-secondary">
+        <div className="flex flex-col gap-6 text-[19px] leading-[1.75] text-ink/85">
           {post.body.map((para, i) => (
-            <p key={i}>{para}</p>
+            <p key={i} className={i === 0 ? "text-[length:var(--text-xl)] leading-[1.55] text-ink" : undefined}>
+              {para}
+            </p>
           ))}
         </div>
 
-        <div className="mt-16 border-t border-border pt-8">
-          <Link
-            href="/blog"
-            className="text-sm text-secondary transition-colors hover:text-ink"
-          >
-            ← All posts
+        <div className="mt-16 flex items-center justify-between border-t border-ink pt-6">
+          <Link href="/blog" className="text-[14px] text-secondary transition-colors hover:text-ink">
+            <span aria-hidden>&larr; </span>All writing
+          </Link>
+          <Link href="/contact" className="link-accent text-[14px]">
+            Start a project
           </Link>
         </div>
       </Container>
