@@ -39,7 +39,7 @@ export default function AccessibilityPage() {
         {
           heading: "Found a barrier?",
           paragraphs: [
-            "If any part of this site is difficult to use, tell us at hello@snowbros.studio and we will fix it. Accessibility issues are treated as bugs, not requests.",
+            "If any part of this site is difficult to use, tell us at snowbros2107@gmail.com and we will fix it. Accessibility issues are treated as bugs, not requests.",
           ],
         },
       ]}

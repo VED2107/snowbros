@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/sections/page-header";
 import { TitleBlock } from "@/components/sheet/title-block";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
+import { MentorRouter } from "@/components/products/mentor-router";
 
 export const metadata: Metadata = pageMetadata({
   title: "Products",
@@ -65,6 +66,11 @@ export default function ProductsPage() {
                 </div>
               </Reveal>
               <Reveal className={i % 2 ? "lg:order-1 lg:col-span-5" : "lg:col-span-5 lg:col-start-8"}>
+                {p.slug === "mentor" && (
+                  <div className="mb-5">
+                    <MentorRouter />
+                  </div>
+                )}
                 {shot && (
                   <div className="frame-night mb-5 max-h-[420px] overflow-hidden">
                     <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes="(min-width: 1024px) 480px, 100vw" className="block h-auto w-full" />

@@ -121,6 +121,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "Labs", href: "/labs" },
       { label: "Search", href: "/search" },
       { label: "RSS", href: "/rss.xml" },
+      { label: "Colophon", href: "/credits" },
     ],
   },
   {

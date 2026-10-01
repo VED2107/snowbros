@@ -6,10 +6,8 @@ import { site, products } from "@/lib/site";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { Icon, type IconName } from "@/components/ui/icon";
-import { Card } from "@/components/ui/card";
 import { MetricWidget } from "@/components/ui/metric-widget";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
-import { Counter } from "@/components/motion/counter";
 import {
   BreadcrumbJsonLd,
   SoftwareApplicationJsonLd,
@@ -137,12 +135,6 @@ const outputs = [
   { name: "Markdown", note: "drop into PRs and docs" },
 ];
 
-const releaseStatus = [
-  { label: "CLI / Engine", value: "0.4.0" },
-  { label: "VS Code Extension", value: "0.3.0" },
-  { label: "Rules", value: "23" },
-  { label: "Languages", value: "5" },
-];
 
 const comparison: {
   label: string;
@@ -212,7 +204,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <Reveal className="plot">
       <div className="plot-rule h-px w-full bg-ink" aria-hidden />
-      <p className="meta pt-3">{children}</p>
+      <span className="sr-only">{children}</span>
     </Reveal>
   );
 }
@@ -251,7 +243,7 @@ export default function AtlasPage() {
             >
               Same code in.
               <br />
-              Same findings out<span className="text-accent">.</span>
+              Same findings out<span className="link-accent">.</span>
             </h1>
             <p
               className="enter mt-7 max-w-[46ch] text-[length:var(--text-lg)] leading-[1.6] text-secondary"
@@ -315,7 +307,7 @@ export default function AtlasPage() {
       </Section>
 
       {/* Architecture / pipeline */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>how it works</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -339,8 +331,8 @@ export default function AtlasPage() {
           <p className="mt-8 max-w-2xl text-sm leading-relaxed text-secondary">
             Warm output is byte-identical to a cold run, the cache can skip work,
             never change results.{" "}
-            <a href={`${docs}/ARCHITECTURE.md`} className="text-accent">
-              Read the architecture →
+            <a href={`${docs}/ARCHITECTURE.md`} className="link-accent">
+              Read the architecture
             </a>
           </p>
         </Reveal>
@@ -409,7 +401,7 @@ export default function AtlasPage() {
       </Section>
 
       {/* Next.js intelligence */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>next.js intelligence</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -499,7 +491,7 @@ export default function AtlasPage() {
       </Section>
 
       {/* Installation */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>install</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -574,7 +566,7 @@ export default function AtlasPage() {
       </Section>
 
       {/* Outputs */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>outputs</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -611,8 +603,8 @@ export default function AtlasPage() {
         <Reveal delay={0.1}>
           <p className="mt-8 max-w-2xl text-sm leading-relaxed text-secondary">
             Measured on real repositories (zod, axios, fastify).{" "}
-            <a href={`${docs}/docs/EXAMPLES.md`} className="text-accent">
-              See the dogfood reports →
+            <a href={`${docs}/docs/EXAMPLES.md`} className="link-accent">
+              See the dogfood reports
             </a>
           </p>
         </Reveal>
@@ -645,15 +637,15 @@ export default function AtlasPage() {
         </RevealGroup>
         <Reveal delay={0.1}>
           <p className="mt-8 text-sm text-secondary">
-            <a href={`${docs}/ROADMAP.md`} className="text-accent">
-              Full roadmap →
+            <a href={`${docs}/ROADMAP.md`} className="link-accent">
+              Full roadmap
             </a>
           </p>
         </Reveal>
       </Section>
 
       {/* FAQ */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>faq</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -676,88 +668,30 @@ export default function AtlasPage() {
         </RevealGroup>
         <Reveal delay={0.1}>
           <p className="mt-8 text-sm text-secondary">
-            <a href={`${docs}/docs/FAQ.md`} className="text-accent">
-              More in the FAQ →
+            <a href={`${docs}/docs/FAQ.md`} className="link-accent">
+              More in the FAQ
             </a>
           </p>
         </Reveal>
       </Section>
 
-      {/* Release status */}
-      <Section className="border-t border-hairline">
-        <Eyebrow>release status</Eyebrow>
-        <Reveal delay={0.05}>
-          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
-            Production-ready, and shipping.
+      {/* Closing: one action, plainly */}
+      <section className="border-t border-ink">
+        <div className="mx-auto grid max-w-[1240px] gap-8 px-[var(--spacing-gutter)] py-16 md:grid-cols-12 md:items-end md:py-24">
+          <h2 className="text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-ink md:col-span-7">
+            Map your project in one command.
           </h2>
-        </Reveal>
-        <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {releaseStatus.map((r) => (
-            <Reveal as="div" key={r.label} className="card-engineered p-6">
-              <p className="text-[length:var(--text-3xl)] font-normal leading-none tracking-[-0.02em] text-ink">
-                {/^\d+$/.test(r.value) ? <Counter value={r.value} /> : r.value}
-              </p>
-              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-                {r.label}
-              </p>
-            </Reveal>
-          ))}
-        </RevealGroup>
-        <Reveal delay={0.1}>
-          <div className="mt-8 flex flex-wrap items-center gap-2.5">
-            <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-              Cross-platform
-            </span>
-            {["Windows", "Linux", "macOS"].map((p) => (
-              <span
-                key={p}
-                className="inline-flex items-center gap-2 rounded-md border border-hairline bg-surface px-3 py-1.5 font-mono text-[12px] text-secondary"
-              >
-                <Icon name="check" className="text-[12px] text-accent" />
-                {p}
-              </span>
-            ))}
-          </div>
-        </Reveal>
-      </Section>
-
-      {/* GitHub CTA, forest panel */}
-      <Section className="border-t border-hairline">
-        <Reveal>
-          <div className="relative isolate overflow-hidden rounded-[var(--radius-xl)] bg-primary px-8 py-20 text-center text-primary-foreground md:px-16">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10 opacity-[0.13] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)] [background-size:52px_52px] [mask-image:radial-gradient(120%_100%_at_50%_0%,#000,transparent_70%)]"
-            />
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#e8936c]">
-              Open source, MIT or Apache-2.0
-            </p>
-            <h2 className="mx-auto mt-5 max-w-2xl text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-[#f7f4ee]">
-              Map your project in one command.
-            </h2>
-            <p className="mx-auto mt-6 max-w-lg text-lg text-[#b9b3a7]">
-              Try it on your repo right now, then star it, break it, and tell us
-              where it&rsquo;s wrong.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Button
-                href={repo}
-                size="lg"
-                className="bg-[#f7f4ee] text-primary hover:bg-white hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
-              >
-                <Icon name="github" className="text-[18px]" />
-                Star on GitHub
+          <div className="md:col-span-4 md:col-start-9">
+            <p className="text-[15px] leading-relaxed text-secondary">Run it on your repository now. If a finding is wrong, open an issue: that is how the rules get better.</p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <Button href={repo}>Source on GitHub</Button>
+              <Button href={`${docs}/docs/EXAMPLES.md`} variant="text">
+                Real-world runs
               </Button>
-              <a
-                href={`${docs}/docs/EXAMPLES.md`}
-                className="inline-flex h-14 items-center px-6 text-base text-[#b9b3a7] transition-colors hover:text-white"
-              >
-                See real-world runs
-              </a>
             </div>
           </div>
-        </Reveal>
-      </Section>
+        </div>
+      </section>
     </>
   );
 }

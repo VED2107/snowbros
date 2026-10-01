@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { MentorRouter } from "@/components/products/mentor-router";
-import Image from "next/image";
 import { pageMetadata } from "@/lib/seo";
 import { site, products } from "@/lib/site";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { Icon, type IconName } from "@/components/ui/icon";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
-import { Counter } from "@/components/motion/counter";
 import {
   BreadcrumbJsonLd,
   SoftwareApplicationJsonLd,
@@ -92,14 +90,6 @@ const loop = [
   { step: "Checkpoint", note: "if context runs low" },
 ];
 
-const routes: { task: string; pull: string; skip: string }[] = [
-  { task: "Build a login page", pull: "Design · Frontend · Security (authn)", skip: "K8s · DB scaling · AI" },
-  { task: "Review my authentication", pull: "Security · Backend · Architecture", skip: "Design · Frontend" },
-  { task: "Optimize my dashboard", pull: "Frontend (perf) · Design (UX) · Backend", skip: "Security infra · AI" },
-  { task: "Add a RAG feature", pull: "AI · Backend · Security (injection)", skip: "Design · DevOps" },
-  { task: "Design the order system", pull: "Architecture · Backend · Security", skip: "Frontend · Design" },
-  { task: "Teach me caching", pull: "Architecture (+ Backend / DevOps links)", skip: "Design · AI" },
-];
 
 const gates: { icon: IconName; title: string; body: string }[] = [
   { icon: "devtools", title: "Code review", body: "Three-pass procedure, issues named and located, 1-10 category scores with honest calibration, then the Staff rewrite." },
@@ -159,7 +149,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <Reveal className="plot">
       <div className="plot-rule h-px w-full bg-ink" aria-hidden />
-      <p className="meta pt-3">{children}</p>
+      <span className="sr-only">{children}</span>
     </Reveal>
   );
 }
@@ -184,7 +174,7 @@ export default function MentorPage() {
       {/* Hero: the router, operable */}
       <section aria-labelledby="mentor-title" className="border-b border-ink">
         <div className="mx-auto grid max-w-[1240px] gap-12 px-[var(--spacing-gutter)] pb-16 pt-10 md:pb-24 md:pt-16 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-6">
             <nav aria-label="Breadcrumb" className="meta enter">
               <a href="/products" className="hover:text-ink">Products</a>
               <span aria-hidden> / </span>
@@ -197,7 +187,7 @@ export default function MentorPage() {
             >
               One task.
               <br />
-              Only the experts it needs<span className="text-accent">.</span>
+              Only the experts it needs<span className="link-accent">.</span>
             </h1>
             <p
               className="enter mt-7 max-w-[44ch] text-[length:var(--text-lg)] leading-[1.6] text-secondary"
@@ -209,7 +199,7 @@ export default function MentorPage() {
             </p>
             <div className="enter mt-8 flex flex-col items-start gap-4" style={{ "--enter-delay": "220ms" } as React.CSSProperties}>
               <code className="rounded-[var(--radius-md)] border border-ink bg-ink px-4 py-3 font-mono text-[13px] text-background">
-                <span className="text-accent">$ </span>/mentor teach me caching
+                <span className="link-accent">$ </span>/mentor teach me caching
               </code>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                 <Button href={repo}>Source on GitHub</Button>
@@ -227,7 +217,7 @@ export default function MentorPage() {
               ))}
             </dl>
           </div>
-          <div className="enter lg:col-span-7" style={{ "--enter-delay": "180ms" } as React.CSSProperties}>
+          <div className="enter lg:col-span-6" style={{ "--enter-delay": "180ms" } as React.CSSProperties}>
             <MentorRouter />
           </div>
         </div>
@@ -271,7 +261,7 @@ export default function MentorPage() {
       </Section>
 
       {/* Capabilities */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>ten capabilities</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -319,40 +309,10 @@ export default function MentorPage() {
           <p className="mt-8 max-w-2xl text-sm leading-relaxed text-secondary">
             Progressive disclosure is the token engine, unopened references cost
             nothing, so correct routing is the optimization.{" "}
-            <a href={orchestration} className="text-accent">
-              Read the orchestration engine →
+            <a href={orchestration} className="link-accent">
+              Read the orchestration engine
             </a>
           </p>
-        </Reveal>
-      </Section>
-
-      {/* Routing examples */}
-      <Section className="border-t border-hairline bg-elevated">
-        <Eyebrow>routing</Eyebrow>
-        <Reveal delay={0.05}>
-          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
-            It never invokes every capability.
-          </h2>
-        </Reveal>
-        <Reveal className="mt-14 overflow-x-auto">
-          <table className="w-full min-w-[680px] border-collapse overflow-hidden rounded-[var(--radius-lg)] border border-hairline bg-surface text-left text-sm">
-            <thead>
-              <tr className="border-b border-hairline">
-                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">Task</th>
-                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-accent">Pulled</th>
-                <th className="p-5 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">Skipped</th>
-              </tr>
-            </thead>
-            <tbody>
-              {routes.map((row) => (
-                <tr key={row.task} className="border-b border-hairline last:border-b-0">
-                  <td className="p-5 font-medium text-ink">{row.task}</td>
-                  <td className="bg-accent-weak/50 p-5 font-medium text-accent">{row.pull}</td>
-                  <td className="p-5 text-muted">{row.skip}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </Reveal>
       </Section>
 
@@ -381,7 +341,7 @@ export default function MentorPage() {
       </Section>
 
       {/* Honest by design */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>honest by design</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -428,37 +388,15 @@ export default function MentorPage() {
           <p className="mt-8 max-w-2xl text-sm leading-relaxed text-secondary">
             It triggers only when you ask for it, so quick one-off questions stay
             quick.{" "}
-            <a href={readme} className="text-accent">
-              Read the README →
+            <a href={readme} className="link-accent">
+              Read the README
             </a>
           </p>
         </Reveal>
       </Section>
 
-      {/* Stats */}
-      <Section className="border-t border-hairline">
-        <Eyebrow>at a glance</Eyebrow>
-        <Reveal delay={0.05}>
-          <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
-            Open source, and small on purpose.
-          </h2>
-        </Reveal>
-        <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((r) => (
-            <Reveal as="div" key={r.label} className="card-engineered p-6">
-              <p className="text-[length:var(--text-3xl)] font-normal leading-none tracking-[-0.02em] text-ink">
-                {/^\d+$/.test(r.value) ? <Counter value={r.value} /> : r.value}
-              </p>
-              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-                {r.label}
-              </p>
-            </Reveal>
-          ))}
-        </RevealGroup>
-      </Section>
-
       {/* FAQ */}
-      <Section className="border-t border-hairline bg-elevated">
+      <Section className="border-t border-hairline">
         <Eyebrow>faq</Eyebrow>
         <Reveal delay={0.05}>
           <h2 className="mt-5 max-w-2xl text-[length:var(--text-3xl)] leading-[var(--text-3xl--line-height)] tracking-[var(--text-3xl--letter-spacing)]">
@@ -481,43 +419,23 @@ export default function MentorPage() {
         </RevealGroup>
       </Section>
 
-      {/* GitHub CTA, forest panel */}
-      <Section className="border-t border-hairline">
-        <Reveal>
-          <div className="relative isolate overflow-hidden rounded-[var(--radius-xl)] bg-primary px-8 py-20 text-center text-primary-foreground md:px-16">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10 opacity-[0.13] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)] [background-size:52px_52px] [mask-image:radial-gradient(120%_100%_at_50%_0%,#000,transparent_70%)]"
-            />
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#e8936c]">
-              Open source, MIT
-            </p>
-            <h2 className="mx-auto mt-5 max-w-2xl text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-[#f7f4ee]">
-              A Staff engineer and a whole curriculum, in one skill.
-            </h2>
-            <p className="mx-auto mt-6 max-w-lg text-lg text-[#b9b3a7]">
-              Clone it, read it, and put it to work, then tell us where it&rsquo;s
-              wrong.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Button
-                href={repo}
-                size="lg"
-                className="bg-[#f7f4ee] text-primary hover:bg-white hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
-              >
-                <Icon name="github" className="text-[18px]" />
-                Star on GitHub
+      {/* Closing: one action, plainly */}
+      <section className="border-t border-ink">
+        <div className="mx-auto grid max-w-[1240px] gap-8 px-[var(--spacing-gutter)] py-16 md:grid-cols-12 md:items-end md:py-24">
+          <h2 className="text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-ink md:col-span-7">
+            A Staff engineer and a curriculum, in one skill.
+          </h2>
+          <div className="md:col-span-4 md:col-start-9">
+            <p className="text-[15px] leading-relaxed text-secondary">Clone it into your skills folder, then ask. It stays out of the way until you call it.</p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <Button href={repo}>Source on GitHub</Button>
+              <Button href={readme} variant="text">
+                Read the README
               </Button>
-              <a
-                href={readme}
-                className="inline-flex h-14 items-center px-6 text-base text-[#b9b3a7] transition-colors hover:text-white"
-              >
-                Read the docs
-              </a>
             </div>
           </div>
-        </Reveal>
-      </Section>
+        </div>
+      </section>
     </>
   );
 }

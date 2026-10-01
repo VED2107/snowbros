@@ -19,36 +19,50 @@ export function SearchClient({ initialQuery }: { initialQuery: string }) {
         autoFocus
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search work, services, and writing…"
-        className="w-full rounded-[var(--radius-md)] border border-border bg-surface px-5 py-4 text-lg outline-none transition-colors placeholder:text-muted focus-visible:border-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong"
+        placeholder="Search work, services and writing"
+        className="w-full border-0 border-b-2 border-ink bg-transparent px-0 py-3 text-[length:var(--text-2xl)] tracking-[-0.02em] text-ink outline-none placeholder:text-[#8b857a] focus-visible:border-accent"
       />
 
       <div className="mt-10">
         {query.trim() === "" ? (
-          <p className="text-sm text-muted">
-            Start typing to search the studio.
-          </p>
+          <div>
+            <p className="meta">Try a term from the work</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {["Postgres", "offline", "Rust", "row-level security", "Flutter", "Razorpay", "Next.js", "accessibility"].map((t) => (
+                <li key={t}>
+                  <button
+                    type="button"
+                    onClick={() => setQuery(t)}
+                    className="h-9 rounded-[var(--radius-md)] border border-hairline-strong px-3 text-[14px] text-ink transition-[border-color,transform] duration-[160ms] hover:border-ink active:scale-[0.97]"
+                  >
+                    {t}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : results.length === 0 ? (
-          <p className="text-sm text-muted">
-            No results for &ldquo;{query}&rdquo;.
+          <p className="text-[15px] text-secondary">
+            Nothing matches &ldquo;{query}&rdquo;. Try a technology or a project name, or{" "}
+            <Link href="/contact" className="link-accent">ask us directly</Link>.
           </p>
         ) : (
-          <ul className="flex flex-col divide-y divide-border">
+          <ul className="border-t border-ink">
             {results.map((doc) => (
               <li key={doc.href}>
                 <Link
                   href={doc.href}
-                  className="group flex items-center justify-between gap-4 py-5"
+                  className="group flex items-center justify-between gap-4 border-b border-hairline-strong py-5"
                 >
                   <div>
-                    <p className="text-lg font-medium transition-colors group-hover:text-accent-strong">
+                    <p className="text-lg font-medium transition-colors group-hover:text-accent">
                       {doc.title}
                     </p>
                     <p className="mt-1 line-clamp-1 text-sm text-secondary">
                       {doc.text}
                     </p>
                   </div>
-                  <span className="shrink-0 rounded-[var(--radius-sm)] border border-hairline-strong px-2 py-0.5 font-mono text-[11px] text-xs text-muted">
+                  <span className="meta shrink-0">
                     {doc.kind}
                   </span>
                 </Link>

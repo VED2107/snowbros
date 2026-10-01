@@ -5,7 +5,7 @@ import { LegalPage } from "@/components/sections/legal-page";
 export const metadata: Metadata = pageMetadata({
   title: "Cookie Policy",
   description:
-    "SNOWBROS uses privacy-first, cookieless analytics. Here's exactly what runs in your browser.",
+    "SNOWBROS sets no tracking cookies and runs no analytics. Here is exactly what is stored in your browser.",
   path: "/cookies",
 });
 
@@ -14,19 +14,19 @@ export default function CookiesPage() {
     <LegalPage
       slug="cookies"
       title="Cookie Policy"
-      updated="June 2026"
+      updated="October 2026"
       intro="Short version: we don't use tracking cookies."
       sections={[
         {
           heading: "Essential only",
           paragraphs: [
-            "This site does not set advertising or cross-site tracking cookies. Any storage used is strictly to make the site function, for example, remembering your reduced-motion preference.",
+            "This site does not set advertising, analytics or cross-site tracking cookies. The only browser storage it uses is session storage to remember, for the current tab, whether Blueprint mode is on.",
           ],
         },
         {
           heading: "Analytics",
           paragraphs: [
-            "We use privacy-first analytics that measure aggregate traffic without identifying individuals and without persistent cross-site identifiers.",
+            "There are none. We do not measure traffic on this site.",
           ],
         },
         {

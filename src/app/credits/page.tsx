@@ -1,222 +1,113 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/seo";
-import Image from "next/image";
 import { PageHeader } from "@/components/sections/page-header";
-import { Section } from "@/components/layout/section";
-import { Reveal, RevealGroup } from "@/components/motion/reveal";
-import { Icon, type IconName } from "@/components/ui/icon";
+import { TitleBlock } from "@/components/sheet/title-block";
+import { RevealGroup, Reveal } from "@/components/motion/reveal";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Credits",
-  description:
-    "Built with care, engineered with intention. The people, studio, and technology behind SNOWBROS.",
+  title: "Colophon",
+  description: "How this site is made: typefaces, framework, design system, motion rules and how it is checked.",
   path: "/credits",
 });
 
-const founderLinks: { label: string; value: string; href: string; icon: IconName }[] =
-  [
-    {
-      label: "Portfolio",
-      value: "ved.exe.snowbros.me",
-      href: site.social.portfolio,
-      icon: "external",
-    },
-    {
-      label: "GitHub",
-      value: "github.com/VED2107",
-      href: site.social.github,
-      icon: "github",
-    },
-    {
-      label: "LinkedIn",
-      value: "in/ved-chauhan2107",
-      href: site.social.linkedin,
-      icon: "linkedin",
-    },
-    {
-      label: "Email",
-      value: site.founder.email,
-      href: `mailto:${site.founder.email}`,
-      icon: "mail",
-    },
-  ];
-
-const technology = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Supabase",
-  "PostgreSQL",
-  "Cloudflare",
-  "Vercel",
-  "Tailwind CSS",
-  "GSAP",
-  "Framer Motion",
-  "Lucide Icons",
-  "OpenAI",
-  "Anthropic",
+const groups: { title: string; rows: [string, string][] }[] = [
+  {
+    title: "Type",
+    rows: [
+      ["Geist", "Text and display, by Vercel. SIL Open Font License."],
+      ["Geist Mono", "Code, versions and measurements only."],
+    ],
+  },
+  {
+    title: "Framework",
+    rows: [
+      ["Next.js 16.2.9", "React Server Components by default; every page prerendered."],
+      ["React 19.2.4", "Client code limited to navigation, forms and a few interactions."],
+      ["Tailwind CSS 4", "Utilities over a small set of design tokens."],
+      ["Zod, React Hook Form", "Contact form validation, on the client and again on the server."],
+    ],
+  },
+  {
+    title: "Design system",
+    rows: [
+      ["Sheet", "#F7F4EE cream, ink #161513, one signal orange #C2461A (4.7:1)."],
+      ["Shape", "One radius: 4px for controls and panels, 6px for media."],
+      ["Icons", "A small SVG set drawn for this site, 1.5px stroke."],
+    ],
+  },
+  {
+    title: "Motion",
+    rows: [
+      ["Durations", "160ms feedback, 280ms interface, 520ms reveal."],
+      ["Easing", "Strong ease-out cubic-bezier(0.23, 1, 0.32, 1); no ease-in."],
+      ["Engine", "CSS transitions and one IntersectionObserver. No animation library."],
+      ["Reduced motion", "Movement is removed; colour and opacity feedback stays."],
+    ],
+  },
+  {
+    title: "Checks",
+    rows: [
+      ["Snowbros Atlas", "Static analysis on every change. Current score on the site's case study."],
+      ["TypeScript, ESLint", "Strict types and the React hooks rules, clean before release."],
+      ["Headers", "Content Security Policy, HSTS and frame denial on every route."],
+    ],
+  },
 ];
 
-const hosting = ["Cloudflare", "Vercel"];
-
-export default function CreditsPage() {
+export default function ColophonPage() {
   return (
     <>
       <PageHeader
-        eyebrow="credits"
-        title="Built with care, engineered with intention."
-        lead="The people, studio, and technology behind SNOWBROS."
+        title="Colophon."
+        lead="The last sheet in the set: what this site is made of, and the rules it was made to."
         breadcrumbs={[
           { name: "Home", href: "/" },
-          { name: "Credits", href: "/credits" },
+          { name: "Colophon", href: "/credits" },
         ]}
       />
 
-      {/* Founder + Studio */}
-      <Section>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Reveal>
-            <div className="h-full rounded-[var(--radius-lg)] border border-hairline bg-card p-8 shadow-[0_1px_2px_rgba(23,23,23,0.05)]">
-              <p className="eyebrow">Founder</p>
-              <div className="mt-6 flex items-center gap-4">
-                <Image
-                  src="/developer.jpeg"
-                  alt="Ved Chauhan, founder of SNOWBROS"
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 rounded-full object-cover object-[center_20%] ring-1 ring-inset ring-[rgba(22,21,19,0.18)]"
-                />
-                <div>
-                  <p className="text-lg font-semibold tracking-[-0.01em]">
-                    {site.founder.name}
-                  </p>
-                  <p className="font-mono text-xs text-muted">
-                    {site.founder.role}
-                  </p>
-                </div>
-              </div>
-              <ul className="mt-7 flex flex-col divide-y divide-hairline">
-                {founderLinks.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      {...(l.href.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                      className="group/ch flex items-center gap-3 py-3 first:pt-0"
-                    >
-                      <Icon
-                        name={l.icon}
-                        className="text-[16px] text-muted transition-colors group-hover/ch:text-accent"
-                      />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
-                        {l.label}
-                      </span>
-                      <span className="ml-auto text-sm text-ink transition-colors group-hover/ch:text-accent">
-                        {l.value}
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.06}>
-            <div className="flex h-full flex-col justify-between rounded-[var(--radius-lg)] border border-hairline bg-card p-8 shadow-[0_1px_2px_rgba(23,23,23,0.05)]">
-              <div>
-                <p className="eyebrow">Studio</p>
-                <p className="mt-6 text-[length:var(--text-2xl)] font-semibold tracking-[-0.02em]">
-                  {site.name}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-secondary">
-                  {site.description}
-                </p>
-              </div>
-              <a
-                href={site.url}
-                className="mt-8 inline-flex items-center gap-2 font-mono text-sm text-accent"
-              >
-                <Icon name="external" className="text-[15px]" />
-                snowbros.me
-              </a>
-            </div>
-          </Reveal>
-        </div>
-      </Section>
-
-      {/* Technology + Hosting */}
-      <Section className="border-t border-hairline bg-elevated">
-        <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr]">
-          <div>
-            <Reveal>
-              <p className="eyebrow">technology</p>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h2 className="mt-5 text-[length:var(--text-2xl)] font-semibold tracking-[-0.02em]">
-                The stack behind the studio.
+      <div className="mx-auto grid max-w-[1240px] gap-12 px-[var(--spacing-gutter)] py-16 md:py-24 lg:grid-cols-12 lg:gap-8">
+        <RevealGroup className="flex flex-col gap-12 lg:col-span-8">
+          {groups.map((g) => (
+            <section key={g.title} aria-labelledby={`c-${g.title}`}>
+              <h2 id={`c-${g.title}`} className="border-b border-ink pb-2 text-[length:var(--text-xl)] tracking-[-0.02em] text-ink">
+                {g.title}
               </h2>
-            </Reveal>
-            <RevealGroup className="mt-8 flex flex-wrap gap-2">
-              {technology.map((t) => (
-                <Reveal
-                  as="span"
-                  key={t}
-                  className="rounded-md border border-hairline bg-surface px-3 py-1.5 font-mono text-[12px] text-secondary transition-colors hover:border-accent/40 hover:text-accent"
-                >
-                  {t}
-                </Reveal>
-              ))}
-            </RevealGroup>
-          </div>
-          <div>
-            <Reveal>
-              <p className="eyebrow">hosting</p>
-            </Reveal>
-            <RevealGroup className="mt-8 flex flex-col gap-3">
-              {hosting.map((h) => (
-                <Reveal
-                  as="div"
-                  key={h}
-                  className="flex items-center gap-3 rounded-[var(--radius-md)] border border-hairline bg-surface px-4 py-3"
-                >
-                  <span className="font-mono text-sm text-ink">{h}</span>
-                </Reveal>
-              ))}
-            </RevealGroup>
-          </div>
-        </div>
-      </Section>
+              <dl>
+                {g.rows.map(([k, v]) => (
+                  <div key={k} className="grid gap-1 border-b border-hairline py-3 sm:grid-cols-[13rem_1fr] sm:gap-6">
+                    <dt className="text-[15px] font-medium text-ink">{k}</dt>
+                    <dd className="text-[15px] leading-relaxed text-secondary">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ))}
+        </RevealGroup>
 
-      {/* Special thanks + License + Closing */}
-      <Section className="border-t border-hairline">
-        <div className="grid gap-12 md:grid-cols-2">
-          <Reveal>
-            <p className="eyebrow">Special thanks</p>
-            <p className="mt-5 text-[15px] leading-relaxed text-secondary">
-              Open-source maintainers whose tools and libraries make modern
-              software development possible.
-            </p>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <p className="eyebrow">License</p>
-            <p className="mt-5 font-mono text-sm text-secondary">
-              © 2026 {site.name}. All rights reserved.
-            </p>
-          </Reveal>
-        </div>
-
-        <Reveal>
-          <div className="mt-14 rounded-[var(--radius-xl)] border border-hairline bg-card p-8 text-center shadow-[0_1px_2px_rgba(23,23,23,0.05)] md:p-14">
-            <p className="mx-auto max-w-2xl text-[length:var(--text-xl)] leading-relaxed text-ink">
-              Every pixel, interaction, and line of code has been thoughtfully
-              crafted to reflect the way we believe software should be built , 
-              simple, durable, and engineered to last.
+        <Reveal className="lg:col-span-3 lg:col-start-10">
+          <div className="lg:sticky lg:top-24">
+            <TitleBlock
+              heading="Drawn by"
+              rows={[
+                { label: "Design and code", value: site.founder.name, wide: true },
+                { label: "Revision", value: <span className="font-mono text-[12px]">{process.env.NEXT_PUBLIC_BUILD_REV}</span> },
+                { label: "Built", value: <span className="font-mono text-[12px]">{process.env.NEXT_PUBLIC_BUILD_DATE}</span> },
+              ]}
+            />
+            <p className="mt-5 text-[14px] leading-relaxed text-secondary">
+              Press <kbd className="rounded-[3px] border border-hairline-strong px-1 font-mono text-[12px] text-ink">B</kbd> on any
+              page to see its working drawing.{" "}
+              <Link href="/work/snowbros-website" className="link-accent">
+                Read the case study
+              </Link>
+              .
             </p>
           </div>
         </Reveal>
-      </Section>
+      </div>
     </>
   );
 }

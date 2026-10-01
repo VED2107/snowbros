@@ -27,7 +27,7 @@ export default function SecurityPage() {
         {
           heading: "Reporting a vulnerability",
           paragraphs: [
-            "If you believe you have found a security issue, email security@snowbros.studio with details and steps to reproduce. Please give us a reasonable window to respond before any public disclosure.",
+            "If you believe you have found a security issue, email snowbros2107@gmail.com with details and steps to reproduce. Please give us a reasonable window to respond before any public disclosure.",
             "We will acknowledge your report, keep you updated, and credit you if you wish once the issue is resolved.",
           ],
         },

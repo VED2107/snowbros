@@ -61,7 +61,7 @@ export default function ServicesPage() {
       </div>
 
       {/* The proof map */}
-      <section aria-labelledby="map-title" className="border-y border-hairline bg-elevated">
+      <section aria-labelledby="map-title" className="hidden border-y border-hairline bg-elevated md:block">
         <div className="mx-auto max-w-[1240px] px-[var(--spacing-gutter)] py-16 md:py-24">
           <SheetHead
             id="map-title"

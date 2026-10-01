@@ -613,7 +613,7 @@ export const projects: Project[] = [
 export const siteAudit = {
   date: "2026-10-01",
   engine: "Atlas 0.4.0",
-  filesScanned: 115,
+  filesScanned: 114,
   frameworks: "Next.js 16.2.9, React 19.2.4",
   coldMs: 120,
   before: 90,
@@ -634,7 +634,7 @@ export const siteAudit = {
     "2 dependencies only referenced from CSS (tw-animate-css, shadcn). A TypeScript scan cannot see them; they are used.",
     "1 file not imported anywhere: the shelved 3D island prototype, kept on purpose and listed in Labs.",
   ],
-  fixed: "Between the first run (90) and this one: removed 4 unused dependencies and 15 unused exports it reported.",
+  fixed: "Between the first run (90) and this one: removed 4 unused dependencies, 15 unused exports and 2 dead files it reported.",
 } as const;
 
 export function getProject(slug: string): Project | undefined {

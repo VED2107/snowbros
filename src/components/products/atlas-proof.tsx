@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/icon";
 
@@ -102,9 +103,9 @@ export function AtlasProof() {
       </div>
       <figcaption className="mt-2 text-[12px] text-muted">
         Sample run from the Atlas README. The second run reads the cache; the findings do not move.{" "}
-        <a href="/work/snowbros-website#inspection" className="link-accent text-ink">
+        <Link href="/work/snowbros-website#inspection" className="link-accent text-ink">
           We also run it on this website: 94/100
-        </a>
+        </Link>
         .
       </figcaption>
     </figure>

@@ -2,6 +2,7 @@ import { footerNav, site } from "@/lib/site";
 import { SnowNode } from "@/components/ui/wordmark";
 import { Button } from "@/components/ui/button";
 import { TitleBlock } from "@/components/sheet/title-block";
+import { FooterInvite } from "@/components/layout/footer-invite";
 
 /*
   Footer: the closing frame of the sheet. An invitation with one action,
@@ -13,6 +14,7 @@ export function SiteFooter() {
   return (
     <footer className="relative z-10 border-t border-ink" data-sheet="SiteFooter">
       <div className="mx-auto max-w-[1240px] px-[var(--spacing-gutter)] pt-16 md:pt-24">
+        <FooterInvite>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <h2 className="text-[length:var(--text-4xl)] leading-[var(--text-4xl--line-height)] tracking-[var(--text-4xl--letter-spacing)] text-ink">
@@ -78,6 +80,7 @@ export function SiteFooter() {
           </div>
         </div>
 
+        </FooterInvite>
         <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-hairline-strong pt-10 sm:grid-cols-4 md:mt-24">
           {footerNav.map((group) => (
             <nav key={group.title} aria-label={group.title}>
